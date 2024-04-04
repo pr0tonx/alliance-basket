@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: alliance_basket
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      MYSQL_HOST: db 
+      MYSQL_USER: root 
+      PASSWORD: root 
+      MYSQL_DATABASE: alliance_basket 
+
+  db:
+    image: mysql:5.7
+    container_name: mysql_alliance_basket 
+    ports:
+    - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    restart: "no"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: alliance_basket
