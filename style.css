@@ -1,0 +1,131 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.header {
+    display: flex;
+    padding: 1rem;
+    justify-content: space-around;
+    height: 5vh;   
+   
+}
+
+.logo a {
+    font-size: 30px;
+    font-weight: bold;
+    color: #71208a;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+
+.header .redirecionamentos {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    place-items: center;
+    font-weight: 600;
+    
+}
+
+.header .redirecionamentos a {
+    font-size: 20px;
+    color: #71208a;
+}
+
+.formulario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.main {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.entrar{
+    padding: 12px 40px;
+    background-color: rgb(43, 57, 70);
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.cadastrar{
+    padding: 11px 30px;
+    background-color: white;
+    color: rgb(43, 57, 70);
+    border:2px solid rgb(43, 57, 70);
+    border-radius: 5px;
+}
+
+.main .container {
+    width: 80%;
+    height: 80%;
+    border-radius: 1rem;
+    display: flex;
+    animation: slideInLeft 1s ease-in;
+    
+    
+}
+
+.text { 
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.text h1 {
+    font-size: 50px;
+    padding-bottom: 10px;
+    color: black;
+    font-size: 40px;
+}
+
+.text span{
+    color: #71208a;
+}
+
+.text p {
+    text-align: justify;
+    font-size: 18px;
+    color: black;
+    text-align: left;
+    text-align: justify;
+    line-height: 1.4;
+}
+
+.image {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.image img {
+    width:70% ;
+    height: 80%;
+}
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
