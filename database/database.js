@@ -61,8 +61,8 @@ async function updateClient(id, name, phoneNumber, email, password) {
     return rows;
 }
 
-async function deleteClient(now)     {
-    const query = `UPDATE TB_clients SET deleted_at=NOW()`;
+async function deleteClient(id)     {
+    const query = `UPDATE TB_clients SET deleted_at = NOW() where id_client = ${id} `;
 
     const [rows] = await pool.query(query);
 
@@ -70,7 +70,7 @@ async function deleteClient(now)     {
 }
 
 async function reactivateClient(id) {
-    const query = `UPDATE TB_clients SET deleted_at=${undefined} WHERE id_client=${id}`;
+    const query = `UPDATE TB_clients SET deleted_at = NULL WHERE id_client = ${id}`;
 
     const [rows] = await pool.query(query);
 
