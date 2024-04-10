@@ -9,6 +9,16 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DATABASE
 }).promise();
 
+
+function DBX() {
+     return mysql.createPool({
+        host: process.env.MYSQL_HOST,
+        user: process.env.MYSQL_USER,
+        password: process.env.PASSWORD,
+        database: process.env.MYSQL_DATABASE
+    }).promise();
+}
+
 /** CLIENTS **/
 async function createClient(username, password, phoneNumber, email) {
     const query = `INSERT INTO TB_clients (name, phone_number, email, password) VALUES (?, ?, ?, ?)`;
@@ -51,8 +61,8 @@ async function updateClient(id, name, phoneNumber, email, password) {
     return rows;
 }
 
-async function deleteClient(now) {
-    const query = `UPDATE TB_clients SET deleted_at=${now}`;
+async function deleteClient(now)     {
+    const query = `UPDATE TB_clients SET deleted_at=NOW()`;
 
     const [rows] = await pool.query(query);
 
@@ -130,6 +140,8 @@ module.exports = {
     updateClient,
     deleteClient,
     reactivateClient,
+
+    DBX,
 
     createGroup,
     getAllGroups,

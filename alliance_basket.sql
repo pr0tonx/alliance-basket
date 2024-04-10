@@ -1,3 +1,5 @@
+CREATE DATABASE alliance_basket;
+
 USE alliance_basket;
 
 CREATE TABLE TB_clients (
@@ -31,8 +33,8 @@ CREATE TABLE TB_members(
 	id_members int PRIMARY KEY NOT NULL AUTO_INCREMENT,
     id_group int NOT NULL,
     id_client int NOT NULL,
-	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    deleted_at TIMESTAMP,
+	created_at DATETIME NOT NULL DEFAULT NOW(),
+    deleted_at DATETIME,
     FOREIGN KEY (id_group) REFERENCES TB_groups(id_group),
     FOREIGN KEY (id_client) REFERENCES TB_clients(id_client)
 );
@@ -52,7 +54,7 @@ INSERT INTO TB_groups(group_name, id_admin) VALUE ( "Pagode do sabado", 3);
 SELECT * FROM TB_groups;
 SELECT * FROM TB_members;
 
-SELECT id_group, group_name, id_client, name FROM TB_integrantes
-INNER JOIN TB_clients ON TB_integrantes.id_client = TB_clients.id
-INNER JOIN TB_groups ON TB_integrantes.id_group = TB_groups.id
+SELECT id_group, group_name, id_client, name FROM TB_members
+INNER JOIN TB_clients ON TB_members.id_client = TB_clients.id
+INNER JOIN TB_groups ON TB_members.id_group = TB_groups.id
 WHERE id_client = 1;
