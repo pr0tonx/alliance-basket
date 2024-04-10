@@ -14,39 +14,39 @@
     <div class="container">
         <div class="part-1">
             <h1>Seja bem-vindo</h1>
-            
+
             <div class="text">
                 <p>Caso você ja tenha uma conta</p>
                 <p>Clique para entrar no botão abaixo</p>
             </div>
-            
+
             <button> Entrar</button>
         </div>
         <div class="part-2">
             <h1>Cadastre-se</h1>
-            <form action="">
+            <form>
                 <div class="input-field">
-                    <input type="text" placeholder="Nome" id="name">  
-                         
+                    <input type="text" placeholder="Nome" id="signup-name">
                 </div>
                 <div class="input-field">
-                    <input type="email" placeholder="Email" id="email">
-                   
+                    <input type="email" placeholder="Email" id="signup-email">
+
                 </div>
                 <div class="input-field">
-                    <input type="password" placeholder="Senha" id="password">
+                    <input type="password" placeholder="Senha" id="signup-password">
                 </div>
                 <div class="input-field">
                     <input type="password" placeholder="Confirmar senha" id="confirmPassword">
                 </div>
-                
-               
-                <button type="submit" onclick="validatudo()">Cadastrar</button>
+
+
+<!--                <button id="signupButton" type="submit" onclick="validatudo()">Cadastrar</button>-->
+                <button id="signupButton" type="submit">Cadastrar</button>
             </form>
-            
         </div>
     </div>
 
-    <script src="script_register.js"></script>
+<!--    <script src="script_register.js"></script>-->
+    <script type="module" src="../js/register.js"></script>
 </body>
 </html>

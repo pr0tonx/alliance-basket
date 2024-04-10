@@ -19,10 +19,18 @@ function DBX() {
     }).promise();
 }
 
+/** LOGIN **/
+async function signin(email, password) {
+    const query = `SELECT * FROM TB_clients WHERE (email, password) VALUES (?, ?)`;
+    const values = [email, password];
+
+    return await pool.query(query, values) || false;
+}
+
 /** CLIENTS **/
-async function createClient(username, password, phoneNumber, email) {
+async function createClient(name, phoneNumber, email, password) {
     const query = `INSERT INTO TB_clients (name, phone_number, email, password) VALUES (?, ?, ?, ?)`;
-    const values = [username, password, phoneNumber, email];
+    const values = [name, phoneNumber, email, password];
 
     const [rows] = await pool.query(query, values);
 
@@ -46,8 +54,20 @@ async function getClientById(id) {
     return rows;
 }
 
+async function getClientByEmailAndPhone(email, phoneNumber) {
+    const query = `SELECT * from TB_clients WHERE email=? OR phone_number=?`;
+    const values = [email, phoneNumber];
+
+    const [rows] = await pool.query(query, values);
+
+    return rows;
+}
+
 async function getClientByEmail(email) {
-    const [rows] = await pool.query(`SELECT * from TB_clients WHERE email=?`, [email]);
+    const query = `SELECT * FROM TB_clients WHERE email=?`;
+    const values = [email];
+
+    const [rows] = await pool.query(query, values);
 
     return rows;
 }
@@ -61,14 +81,16 @@ async function updateClient(id, name, phoneNumber, email, password) {
     return rows;
 }
 
-async function deleteClient(now)     {
-    const query = `UPDATE TB_clients SET deleted_at=NOW()`;
+async function deleteClient(idClient) {
+    const query = `UPDATE TB_clients SET deleted_at=NOW() WHERE id_client=?`;
+    const values = [idClient];
 
-    const [rows] = await pool.query(query);
+    const [rows] = await pool.query(query, values);
 
     return rows;
 }
 
+// TODO tá errado
 async function reactivateClient(id) {
     const query = `UPDATE TB_clients SET deleted_at=${undefined} WHERE id_client=${id}`;
 
@@ -133,9 +155,12 @@ async function addMemberToGroup(idGroup, member) {
 }
 
 module.exports = {
+    signin,
+
     createClient,
     getClients,
     getClientById,
+    getClientByEmailAndPhone,
     getClientByEmail,
     updateClient,
     deleteClient,
