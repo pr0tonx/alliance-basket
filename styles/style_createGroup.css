@@ -619,7 +619,7 @@ textarea {
 .input-dentro:nth-child(6){
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
 }
 
 .preference-container{
