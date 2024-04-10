@@ -20,9 +20,31 @@ const {
     deleteGroup,
     editGroup
 } = require('./controllers/groupsController');
-const {addGroupMember} = require("./controllers/membersController");
+const {addGroupMember} = require('./controllers/membersController');
+const {login, signup} = require('./controllers/authController');
+const {isAuth} = require("./middleware/authMiddleware");
 
 app.listen(8080, () => console.log(`Server is running on port ${PORT}`));
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    );
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    res.setHeader("Access-Control-Expose-Headers", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Max-Age", "86400");
+    next();
+});
+
+/** LOGIN **/
+app.post('/signup', (req, res) => signup(req, res));
+app.post('/login', (req, res) => login(req, res));
+
+/** HOME PAGE **/
+app.get('/', (_, res) => res.send(200));
 
 /** CLIENTS **/
 app.post('/clients', async (req, res) => createClient(req, res));
@@ -43,7 +65,8 @@ app.delete('/clients/:idClient/groups/:idGroup', async (req, res) => deleteGroup
 app.post('/clients/:idClient/groups/:idGroup/members', async (req, res) => addGroupMember(req, res));
 
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.log(err);
+    if (err.type === 'entity.parse.failed') res.status(400).send('Invalid JSON format').end();
     res.status(500).send('Something broke');
     next();
 });
