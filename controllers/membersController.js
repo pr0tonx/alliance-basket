@@ -1,17 +1,15 @@
-const db = require('../database/database');
+const memberModel = require('../model/memberModel')
 
 const addGroupMember = async function (req, res) {
     const {idClient, idGroup} = req.params;
-    const {members} = req.body;
-
-    // TODO again, opção só deve aparecer para o admin, entretanto, checar se não for o caso
-
-    console.log(members);
-    // const addedMembers = members.map(async member => {
-    //    await db.addMemberToGroup(idGroup, member);
-    // });
-
-    // res.status(200).send(addedMembers);
+    const {members_id} = req.body
+    
+    let errors = await memberModel.addGroupMember(idClient, idGroup, members_id)
+    if (errors.length == 0) {
+        return res.status(200).send("OK");
+    }else {
+        return res.status(404).send(errors);
+    }
 }
 
 module.exports = {
