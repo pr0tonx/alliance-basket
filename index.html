@@ -3,37 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AllianceBasket</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>AllianceBasket</title>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">
-            <a href="">AllianceBasket</a>
-        </div>
-        <div class="redirecionamentos">
-            <a href="">Criar grupo</a>
-            <a href="">Ver grupos</a>
-            <a href="">Ajuda</a>
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="" class="nav-logo">AllianceBasket</a>
             
-        </div>
-        <div class="formulario">
-            <button class="entrar">Entrar</button>
-            <button class="cadastrar">Cadastrar</button>
-        </div>
-    </div>
+            <div class="nav-menu show-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="" class="nav-link">Criar grupo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">Meus grupos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">Funcionamento</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">Reclamações</a>
+                    </li>
+                </ul>
+            
+                <div class="nav-close" id="nav-close">
+                    <i class="ri-close-line"></i>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <i class="ri-user-fill nav-login" id="login-btn"></i>
+            
+                <div class="nav-toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+            </div>            
+        </nav>
+    </header>
     <div class="main">
         <div class="container">
             <div class="text">
                 <h1>Sua plataforma inovadora de <span>controle de gastos</span></h1>
                 <p>
-                    Descubra uma nova forma de encarar suas finanças. Com nosso aplicativo de controle de gastos, você terá em suas mãos uma poderosa ferramenta para organizar suas finanças pessoais. Registre suas despesas, acompanhe seus gastos, defina metas e alcance uma vida financeira mais equilibrada. Não deixe para amanhã, comece hoje mesmo a transformar sua relação com o dinheiro.</p>
-              
+                    Descubra uma nova forma de encarar suas finanças. Com nosso aplicativo de controle de gastos, você terá em suas mãos uma poderosa ferramenta para organizar suas finanças pessoais. Registre suas despesas, acompanhe seus gastos, defina metas e alcance uma vida financeira mais equilibrada. Não deixe para amanhã, comece hoje mesmo a transformar sua relação com o dinheiro.</p>            
             </div>
             <div class="image">
                 <img src="/images/work4.png" alt="">
             </div>
         </div>
     </div>
+
+    <script src="home_js.js"></script>
 </body>
 </html>
