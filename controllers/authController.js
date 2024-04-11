@@ -47,9 +47,9 @@ const login = async function (req, res) {
     const {email} = req.body;
 
     try {
-        const user = await getClientByEmail(email);
+        const client = await getClientByEmail(email);
 
-        if (user.length === 0) {
+        if (client.length === 0) {
             res.status(401).send({
                 error: 'Unauthorized',
                 message: 'Email or password is incorrect.',
@@ -61,7 +61,7 @@ const login = async function (req, res) {
         if (!req.body.isFirstLogin) {
             req.body.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${req.body.password}`).toString('base64');
 
-            if (req.body.password !== user[0].password) {
+            if (req.body.password !== client[0].password) {
                 res.status(401).send({
                     error: 'Unauthorized',
                     message: 'Email or password is incorrect.',
@@ -72,14 +72,10 @@ const login = async function (req, res) {
         }
 
         const token = createToken(req.body.password);
-        req.headers.authorization = {'Authorization': `Bearer ${token}`};
-        req.headers.id = user[0].id_client;
-
-        // TODO redirect to some page
-        // location.assign('/');
+        // window.localStorage.setItem('Authorization', `Bearer ${token}`);
+        // window.localStorage.setItem('idClient', client[0].id_client);
 
         res.status(200).send({token});
-        res.status(200).send() // FIXME
     } catch (err) {
         console.log(err);
         res.status(500).send({
@@ -94,10 +90,6 @@ const createToken = (id) => {
     return jwt.sign({id}, process.env.SECRET_TOKEN, {
         expiresIn: 3600
     });
-}
-
-const setAuthHeader = (req, token) => {
-    req.headers.authorization = token;
 }
 
 module.exports = {
