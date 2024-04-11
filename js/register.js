@@ -19,7 +19,10 @@ signupButton.addEventListener('click', async (e) => {
 
         if (res.error) {
             // faz algo pra mostrar pro usuário
+            return;
         }
+
+        window.location.href = '../index.html';
     } catch (err) {
         console.log(err);
     }
