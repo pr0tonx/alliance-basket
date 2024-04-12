@@ -1,25 +1,20 @@
+const {typeHandler, nullHandler} = require('../common/errorHandling');
 const db = require('../database/database');
-
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-dayjs.extend(utc);
 
 const createClient = async function (req, res) {
     try {
-        const {name, password, phoneNumber, email} = req.body;
+        const {name, password, email} = req.body;
 
-        const client = await db.getClientByEmail(email);
+        // nullHandler(Object.values(req.body), res);
+        // typeHandler(Object.values(req.body), ['string', 'string', '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$', 'string'], res);
 
-        if (client) {
-            res.status(200).send('Email already registered.');
-            return;
-        }
-
-        await db.createClient(name, phoneNumber, email, password);
-        res.status(201).send('User created successfully!');
-
+        await db.createClient(name, null, email, password);
     } catch (err) {
-        res.status(500).send('Something went wrong.');
+        res.status(500).send({
+            error: 'Internal server error',
+            message: 'Something went wrong.',
+            code: 500
+        });
         throw err;
     }
 }

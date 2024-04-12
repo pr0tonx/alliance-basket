@@ -18,9 +18,15 @@ main {
     z-index: 1;
     padding-left: calc(82px + 20px);
     width: 100%;
+    height:100%;
     border: 1px solid red;
     display: flex;
-    justify-content:space-around;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main h1{
+    text-align: center;
 }
 
 #sidebar {
@@ -109,6 +115,7 @@ main {
 #logout {
     border-top: 1px solid #e3e9f7;
     padding: 12px;
+    
 }
 
 #logout_btn {
@@ -174,4 +181,27 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.side-eye button {
+    border: none;
+    background-color: transparent;
+    padding: 10px 2px;
+    border-radius: 5px;
+    
+    
+}
+
+.side-eye button:hover {
+    background-color: #e3e9f7;
+    cursor: pointer;
+}
+
+.teste{
+    padding-left: 20px;
+}
+
+.teste p {
+    font-size: 18px;
+    text-align: justify;
 }

@@ -11,7 +11,7 @@
     <title>Login</title>
 </head>
 <body>
-    
+
     <div class="container">
         <div class="form-box">
             <h1>Login</h1>
@@ -19,20 +19,22 @@
                 <div class="input-group">
                     <div class="input-field">
                         <i class="fa-regular fa-user"></i>
-                        <input type="text" placeholder="Nome">
+                        <input type="text" placeholder="Email" id="loginEmailInput">
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Senha">
+                        <input type="password" placeholder="Senha" id="loginPasswordInput">
                     </div>
                 </div>
                 <p class="lost-password"><a href="">Perdeu a senha?</a></p>
                 <div class="button-field">
-                    <button type="submit">Login</button>           
+                    <button id="loginButton" type="submit">Login</button>
                 </div>
                 <p class="sign-up">Nao tem sua conta ainda? <a href="">Cadastre-se</a></p>
             </form>
         </div>
     </div>
+
+    <script type="module" src="../js/login.js"></script>
 </body>
 </html>
