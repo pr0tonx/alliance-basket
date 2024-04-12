@@ -61,9 +61,9 @@ const updateClient = async function (req, res) {
 // TODO when deleting a user, the group admin must be transfered to another user if there is one
 const deleteClient = async function (req, res) {
     try {
-        const {idClient} = req.params;
+        const {id} = req.params;
 
-        await db.deleteClient(idClient);
+        await db.deleteClient(id);
 
         res.status(200).send('User deleted successfully.');
     } catch (err) {

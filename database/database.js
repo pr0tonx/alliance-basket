@@ -81,6 +81,7 @@ async function updateClient(id, name, phoneNumber, email, password) {
     return rows;
 }
 
+
 async function deleteClient(idClient) {
     const query = `UPDATE TB_clients SET deleted_at=NOW() WHERE id_client=?`;
     const values = [idClient];
@@ -92,7 +93,7 @@ async function deleteClient(idClient) {
 
 // TODO tá errado
 async function reactivateClient(id) {
-    const query = `UPDATE TB_clients SET deleted_at=${undefined} WHERE id_client=${id}`;
+    const query = `UPDATE TB_clients SET deleted_at = NULL WHERE id_client = ${id}`;
 
     const [rows] = await pool.query(query);
 
