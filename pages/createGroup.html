@@ -27,7 +27,7 @@
             <div class="nav-menu show-menu" id="nav-menu">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="" class="nav-link">Criar grupo</a>
+                        <a href="./createGroup.html" class="nav-link">Criar grupo</a>
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">Meus grupos</a>
@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="botao-criar">
-                    <button type="submit" class="criar">Criar Grupo</button>
+                    <button type="submit" class="criar" id="submitGroupButton">Criar Grupo</button>
                 </div>
 
             </form>
@@ -191,7 +191,7 @@
             typeButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     // Impede o comportamento padrão do botão
-                    event.preventDefault(); 
+                    event.preventDefault();
                 });
             });
         });
@@ -200,16 +200,16 @@
         // Fechar o modal ao carregar a página
         document.addEventListener("DOMContentLoaded", function () {
             var modal = document.getElementById("ModalFormGroup");
-            modal.style.display = "none"; 
+            modal.style.display = "none";
         });
 
-        
-        //Abrir o modal 
+
+        //Abrir o modal
         function openModal() {
             document.getElementById("ModalFormGroup").style.display = "block";
         }
 
-        //Fechar o modal 
+        //Fechar o modal
         function closeModal() {
             document.getElementById("ModalFormGroup").style.display = "none";
         }
@@ -274,7 +274,7 @@
                     userDiv.classList.add("userItem");
 
                     userDiv.textContent = personName;
-                    
+
                     //Criação do botão de remover usuário
                     var removeButton = document.createElement("button");
 
@@ -286,8 +286,8 @@
                         userDiv.remove();
                     });
 
-                 
-                    //Limpando o valor do input 
+
+                    //Limpando o valor do input
                     personNameInput.value = "";
                 }
             });
@@ -295,6 +295,7 @@
 
 
     </script>
+    <script src="../js/groups.js"></script>
 </body>
 
 </html>
