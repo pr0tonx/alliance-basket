@@ -1,19 +1,18 @@
 const jwt = require('jsonwebtoken');
 
 const isAuth = (req, res, next) => {
-    const token = (req.headers.authorization).split(' ')[1];
-    console.log(token);
 
-    if (!token) {
+    if (!req.headers.authorization) {
         res.status(401).send({
             error: 'Unauthorized',
             message: 'No token provided.',
             status: 401
         });
-
         res.redirect('/login');
         return;
     }
+
+    const token = (req.headers.authorization).split(' ')[0];
 
     jwt.verify(token, process.env.SECRET_TOKEN, (err) => {
         if (err) {
@@ -22,8 +21,6 @@ const isAuth = (req, res, next) => {
                 message: 'Token expired.',
                 status: 401
             });
-
-            res.redirect('/login');
         } else next();
     });
 }
