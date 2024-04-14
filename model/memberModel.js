@@ -1,6 +1,7 @@
 const db = require('../database/database');
 const groupModel = require('../model/groupsModel')
-
+const clientModel = require('../model/clientModel')
+const EmptyException = require('../error/EmptyException');
 
 async function addGroupMember (adminId, idGroup, members_id) {
     let errors = []
@@ -59,6 +60,30 @@ function addEntryToError(errorArray, errorKey, entry) {
     return errorArray;
 }
 
+async function listAllMembers (groupId) {
+  let members = []
+
+  let membersId = await getGroupMembersId(groupId) 
+  await Promise.all(membersId.map(async (member) => {
+    members.push(await clientModel.getClientById(member.id_members))
+  }))
+
+  return members
+}
+
+async function getGroupMembersId(groupId) {
+  let query = "SELECT id_members FROM TB_members where id_group = ?"
+  let values = [groupId]
+  let [membersId] = await db.DBX().query(query, values)
+ 
+  if (membersId.length == 0) {
+    throw new EmptyException("No members on this group")
+  }
+
+  return membersId
+}
+
 module.exports = {
     addGroupMember,
+    listAllMembers 
 }

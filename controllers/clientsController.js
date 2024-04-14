@@ -1,5 +1,6 @@
 const {typeHandler, nullHandler} = require('../common/errorHandling');
 const db = require('../database/database');
+const clientModel =  require('../model/clientModel')
 
 const createClient = async function (req, res) {
     try {
@@ -34,8 +35,7 @@ const getClientById = async function (req, res) {
     try {
         const {id} = req.params;
 
-        const client = await db.getClientById(id);
-
+        const client = await clientModel.getClientById(id);
         res.status(200).send(client);
     } catch (err) {
         res.status(500).send('Something went wrong.');

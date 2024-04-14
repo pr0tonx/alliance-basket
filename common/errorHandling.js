@@ -1,5 +1,4 @@
 const typeHandler = function (params, expected, res) {
-
     params.forEach((param, i) => {
         if (param !== expected[i]) {
             console.log(param, expected[i]);
@@ -20,3 +19,4 @@ module.exports = {
     typeHandler,
     nullHandler
 }
+
