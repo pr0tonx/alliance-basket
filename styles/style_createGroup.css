@@ -17,15 +17,20 @@
     font-family: Roboto;
 }
 
-body {
-    background-color: var(--primary);
+body, html {
     margin: 0;
+    padding: 0;
+    height: 100%;
+    display: grid;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Default setting */
-html {
-    scroll-behavior: smooth;
-}
+
 
 ul {
     list-style: none;
@@ -151,16 +156,39 @@ main {
     text-align: center;
     background-color: var(--primary);
     color: white;
+    flex-grow: 1; 
+    overflow-y: auto;
 }
 
-main h1 {
 
+.title-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
     font-size: 3.5rem;
     padding-top: 4rem;
-
+    position: relative;
 }
 
+.title::after {
+    content: '';
+    width: 100%;
+    height: 22px;
+    background-image: url(https://www.beyondcss.dev/underline.svg);
+    background-position: right bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: -15px; /* Ajuste o valor conforme necessário para mover mais abaixo */
+    left: 0;
+}
+
+
 .subtitle {
+    margin-top: 1rem;
     font-size: 1.25rem;
 }
 
@@ -186,12 +214,13 @@ main h1 {
 
 .step-content {
     height: 70%;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
+    line-height: 1.5;
+    
 }
 
 .step-content span {
-    color: --;
     font-weight: bold;
 }
 
@@ -200,10 +229,10 @@ main h1 {
     align-items: center;
     justify-content: center;
     background-color: white;
-    width: 60px;
-    height: 60px;
+    width: 3.5rem;
+    height: 3.5rem;
     border-radius: 50%;
-    font-size: 24px;
+    font-size: 22px;
 }
 
 .advice {
@@ -240,200 +269,12 @@ main h1 {
     cursor: pointer;
 }
 
-dialog::backdrop {
-    background-color: rgb(0 0 0 / .5);
-}
-
-dialog {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: none;
-    border-radius: .5rem;
-    width: 80%;
-    height: 75%;
-    text-align: center;
-    padding: 2rem;
-}
-
-dialog h1 {
-    font-size: 40px;
-}
-
-dialog .close {
-    border: none;
-    outline: none;
-    background-color: white;
-    position: absolute;
-    top: 0.5rem;
-    right: 1rem;
-}
-
-dialog .close i {
-    font-size: 24px;
-}
-
-dialog .close i:hover {
-    cursor: pointer;
-    color: #ccc;
-}
-
-.container-section {
-    display: flex;
-
-}
-
-.section {
-    margin-top: 2rem;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 80px;
-    height: 100%;
-    justify-content: center;
-}
 
 
-.section input {
-    border: none;
-    outline: none;
-    font-size: 18px;
-    color: black;
-}
-
-.group-name {
-    padding: 10px;
-    display: flex;
-    width: 40%;
-    border-bottom: 1px solid black;
-
-}
-
-::placeholder {
-    color: black;
-    opacity: 1;
-}
-
-.description {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 10px;
-    font-size: 18px;
-}
-
-textarea {
-    padding: 10px;
-    resize: none;
-    border: 1px solid black;
-    outline: none;
-    border-radius: 10px;
-    width: 80%;
-    height: 10rem;
-}
-
-.coin {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 10px;
-}
-
-.coin-select {
-    width: 80%;
-    padding: 1rem;
-    font-size: 16px;
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
-.category {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.category p {
-    font-size: 20px;
-}
 
 
-.container-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
 
-.grid-item {
-    border: 1px solid black;
-    padding: 10px;
-    border-radius: 6px;
-    display: flex;
-}
 
-.participants {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    gap: 20px;
-    font-size: 20px;
-}
-
-.participants-quantity {
-    display: flex;
-    gap: 10px;
-}
-
-.add-participants {
-    display: flex;
-    gap: 20px;
-}
-
-.input-div {
-    width: 70%;
-    display: flex;
-    border-bottom: 1px solid silver;
-}
-
-.add-participants button {
-    padding: 10px 20px;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    background-color: var(--danger);
-    color: white;
-    font-weight: bold;
-}
-
-.add-participants button:hover {
-    cursor: pointer;
-    background-color: var(--danger-dark);
-}
-
-.button-create-group {
-    display: flex;
-    justify-content: center;
-}
-
-.button-create-group button {
-    margin-top: 2rem;
-    padding: 20px 100px;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    background-color: var(--danger);
-    color: white;
-    font-weight: bold;
-    width: 90%;
-}
-
-.button-create-group button:hover {
-    cursor: pointer;
-    background-color: var(--danger-dark);
-}
 
 /* ========================================== Modal ========================================== */
 
@@ -651,3 +492,4 @@ textarea {
     background-color: #af2c1e;
     
 }
+
