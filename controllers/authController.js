@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 const {getClientByEmail} = require('../database/database');
 const {createClient} = require('./clientsController');
 
-// const crypto = require('crypto');
-
 const signup = async function (req, res) {
     const {email, password} = req.body;
 
@@ -20,14 +18,6 @@ const signup = async function (req, res) {
             return;
         }
 
-        // TODO use Cipheriv for a better password protection - 2nd sprint
-        // const iv = crypto.randomBytes(16);
-        // const data = Buffer.from(`${email}:${password}`).toString('base64');
-        // const cipher = crypto.createCipheriv('aes-256-cbc', process.env.SECRET_TOKEN, iv);
-        // let encryptedPassword = cipher.update(data, 'utf-8', 'hex');
-        // encryptedPassword += cipher.final('hex');
-
-        // req.headers.id = client.id;
         req.body.isFirstLogin = true;
         req.body.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
 
@@ -72,12 +62,14 @@ const login = async function (req, res) {
         }
 
         const token = createToken(req.body.password);
-        // window.localStorage.setItem('Authorization', `Bearer ${token}`);
-        // window.localStorage.setItem('idClient', client[0].id_client);
+        req.headers.authorization = token;
 
-        res.status(200).send({token});
+        res.status(200).send({
+            id: client[0].id_client,
+            email,
+            token
+        });
     } catch (err) {
-        console.log(err);
         res.status(500).send({
             error: 'Internal server error',
             message: 'Something went wrong while trying to login',
