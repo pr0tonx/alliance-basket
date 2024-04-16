@@ -7,6 +7,8 @@ const baseUrl = 'http://localhost:8080';
 loginButton.addEventListener('click', async (e) => {
     e.preventDefault();
 
+    validateLoginFields()
+
     const body = {email: loginEmailInput.value, password: loginPasswordInput.value};
     const options = {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)};
     try {
@@ -14,7 +16,10 @@ loginButton.addEventListener('click', async (e) => {
         const res = await response.json();
 
         if (res.error) {
-            // faz algo pra mostrar pro usuário
+            console.log(res);
+            showErrors(res);
+
+            
             return;
         }
 
@@ -27,3 +32,14 @@ loginButton.addEventListener('click', async (e) => {
         console.log(err);
     }
 });
+
+
+function showErrors () {
+    // if (res.code == 401) {
+    //     showI
+    // }
+}
+
+function validateLoginFields () {
+
+}
