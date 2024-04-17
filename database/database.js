@@ -45,15 +45,6 @@ async function getClients() {
     return rows;
 }
 
-async function getClientById(id) {
-    const query = `SELECT * from TB_clients WHERE id_client=?`;
-    const values = [id];
-
-    const [rows] = await pool.query(query, values);
-
-    return rows;
-}
-
 async function getClientByEmailAndPhone(email, phoneNumber) {
     const query = `SELECT * from TB_clients WHERE email=? OR phone_number=?`;
     const values = [email, phoneNumber];
@@ -160,7 +151,6 @@ module.exports = {
 
     createClient,
     getClients,
-    getClientById,
     getClientByEmailAndPhone,
     getClientByEmail,
     updateClient,

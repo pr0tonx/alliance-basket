@@ -3,12 +3,11 @@ const db = require('../database/database');
 const createGroup = async function (req, res) {
     try {
         const {idClient} = req.params;
-
         const {groupName} = req.body;
 
         await db.createGroup(groupName, idClient);
 
-        res.status(200).send('Group created successfully.');
+        res.status(200).send({});
     } catch (err) {
         res.status(500).send('Something went wrong');
         throw err;

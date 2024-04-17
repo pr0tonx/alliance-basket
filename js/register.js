@@ -18,9 +18,14 @@ signupButton.addEventListener('click', async (e) => {
         console.log(res);
 
         if (res.error) {
+            console.log(res);
             // faz algo pra mostrar pro usuário
             return;
         }
+
+        window.localStorage.setItem('id', res.id);
+        window.localStorage.setItem('email', res.email);
+        window.localStorage.setItem('token', res.token);
 
         window.location.href = '../index.html';
     } catch (err) {
