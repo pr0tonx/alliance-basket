@@ -27,6 +27,12 @@ const getClients = async function (req, res) {
     }
 }
 
+const search = async function (req, res) {
+    let users = await clientModel.search(req.body)
+    
+    return res.status(200).send(users)
+}
+
 const getClientById = async function (req, res) {
     try {
         const {id} = req.params;
@@ -88,5 +94,6 @@ module.exports = {
     getClientById,
     updateClient,
     deleteClient,
-    reactivateClient
+    reactivateClient,
+    search
 }
