@@ -85,6 +85,16 @@ const reactivateClient = async function (req, res) {
         throw err;
     }
 }
+const getAllGroups = async function (req, res) {
+  const {clientId} = req.params;
+  try {
+
+    let groups = await clientModel.getClientGroups(clientId);
+    return res.status(200).send(groups)
+  } catch (err) {
+
+  }
+}
 
 module.exports = {
     getClients,
@@ -92,5 +102,6 @@ module.exports = {
     getClientById,
     updateClient,
     deleteClient,
-    reactivateClient
+    reactivateClient,
+    getAllGroups
 }
