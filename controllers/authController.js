@@ -1,13 +1,40 @@
 const jwt = require('jsonwebtoken');
 
-const {getClientByEmail} = require('../database/database');
-const {createClient} = require('./clientsController');
+const db = require('../database/database');
+const clientsController = require('./clientsController');
 
 const signup = async function (req, res) {
-    const {email, password} = req.body;
+    const {name, email, password} = req.body;
+
+    if (!name || !email || !password) {
+        res.status(400).send({
+            error: 'Bad Request',
+            message: 'No empty field allowed.',
+            code: 400
+        });
+        return;
+    }
+
+    if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+        res.status(400).send({
+            error: 'Bad Request',
+            message: 'Email format not allowed.',
+            status: 400
+        });
+        return;
+    }
+
+    if (!password.match(/^(?=.*[A-Z])(?=.*\d).{6,}$/)) {
+        res.status(400).send({
+            error: 'Bad Request',
+            message: 'The password must contains at least six characters, which at least one is a capital letter and a number.',
+            code: 400
+        });
+        return;
+    }
 
     try {
-        const client = await getClientByEmail(email);
+        const client = await db.getClientByEmail(email);
 
         if (client.length >= 1) {
             res.status(422).send({
@@ -21,7 +48,7 @@ const signup = async function (req, res) {
         req.body.isFirstLogin = true;
         req.body.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
 
-        await createClient(req, res);
+        await clientsController.createClient(req, res);
 
         await login(req, res);
     } catch (err) {
@@ -34,10 +61,39 @@ const signup = async function (req, res) {
 }
 
 const login = async function (req, res) {
-    const {email} = req.body;
+    const {email, password} = req.body;
+
+    if (!req.body.isFirstLogin) {
+        if (!email || !password) {
+            res.status(400).send({
+                error: 'Bad Request',
+                message: 'No empty field allowed.',
+                code: 400
+            });
+            return;
+        }
+
+        if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+            res.status(400).send({
+                error: 'Bad Request',
+                message: 'Email format not allowed.',
+                status: 400
+            });
+            return;
+        }
+
+        if (!password.match(/^(?=.*[A-Z])(?=.*\d).{6,}$/)) {
+            res.status(400).send({
+                error: 'Bad Request',
+                message: 'The password must contains at least six characters, which at least one is a capital letter and a number.',
+                code: 400
+            });
+            return;
+        }
+    }
 
     try {
-        const client = await getClientByEmail(email);
+        const client = await db.getClientByEmail(email);
 
         if (client.length === 0) {
             res.status(401).send({
