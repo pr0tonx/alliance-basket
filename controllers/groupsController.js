@@ -3,9 +3,18 @@ const db = require('../database/database');
 const createGroup = async function (req, res) {
     try {
         const {idClient} = req.params;
-        const {groupName} = req.body;
+        const {groupName, adminOnlyExpenses} = req.body;
 
-        await db.createGroup(groupName, idClient);
+        if (!groupName) {
+            res.status(400).send({
+                error: 'Bad Request',
+                message: 'No empty field allowed.',
+                code: 400
+            });
+            return;
+        }
+
+        await db.createGroup(groupName, idClient, adminOnlyExpenses);
 
         res.status(200).send({});
     } catch (err) {

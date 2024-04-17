@@ -91,9 +91,9 @@ async function reactivateClient(id) {
 }
 
 /** GROUPS **/
-async function createGroup(groupName, idClient) {
-    const query = `INSERT INTO TB_groups (group_name, id_admin) VALUES (?, ?)`;
-    const values = [groupName, idClient];
+async function createGroup(groupName, idClient, adminOnlyExpenses) {
+    const query = `INSERT INTO TB_groups (group_name, id_admin, admin_only_expenses) VALUES (?, ?, ?)`;
+    const values = [groupName, idClient, adminOnlyExpenses];
 
     const [rows] = await pool.query(query, values);
 
@@ -117,9 +117,9 @@ async function getAllGroups() {
 //     return rows;
 // }
 
-async function editGroup(idGroup, groupName) {
-    const query = `UPDATE TB_groups SET group_name=? WHERE id_group=?`;
-    const values = [groupName, idGroup];
+async function editGroup(idGroup, groupName, adminOnlyExpenses) {
+    const query = `UPDATE TB_groups SET group_name=?, admin_only_expenses=? WHERE id_group=?`;
+    const values = [groupName, idGroup, adminOnlyExpenses];
 
     const [rows] = await pool.query(query, values);
 

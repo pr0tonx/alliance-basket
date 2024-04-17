@@ -1,4 +1,3 @@
-const {typeHandler, nullHandler} = require('../common/errorHandling');
 const db = require('../database/database');
 const clientModel =  require('../model/clientModel')
 
