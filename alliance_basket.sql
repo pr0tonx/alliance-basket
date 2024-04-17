@@ -7,7 +7,7 @@ CREATE TABLE TB_clients (
     name varchar(100),
     phone_number char(11),
     email varchar(50),
-    password varchar(20),
+    password varchar(255),
     created_at DATETIME NOT NULL DEFAULT NOW(),
     deleted_at DATETIME
 );
@@ -39,11 +39,12 @@ CREATE TABLE TB_members(
 );
 
 -- add the following lines into TB_groups after insert trigger
-CREATE DEFINER=`root`@`localhost` TRIGGER `TB_groups_AFTER_INSERT` AFTER INSERT ON `TB_groups` FOR EACH ROW BEGIN
-SET @id_group =  NEW.id_group;
-SET @id_admin =  NEW.id_admin;
-INSERT INTO tb_members (id_group, id_client) VALUES (@id_group, @id_admin);
-END
+-- CREATE DEFINER=`root`@`localhost` TRIGGER `TB_groups_AFTER_INSERT` AFTER INSERT ON `TB_groups` FOR EACH ROW BEGIN
+-- SET @id_group =  NEW.id_group;
+-- SET @id_admin =  NEW.id_admin;
+-- INSERT INTO TB_members (id_group, id_client) VALUES (@id_group, @id_admin);
+-- END
+
 
 INSERT INTO TB_groups(group_name, id_admin) VALUE ( "Grupo do churras", 1);
 INSERT INTO TB_groups(group_name, id_admin) VALUE ( "Aniversario jao", 2);

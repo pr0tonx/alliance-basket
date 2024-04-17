@@ -127,7 +127,7 @@ const login = async function (req, res) {
     } catch (err) {
         res.status(500).send({
             error: 'Internal server error',
-            message: 'Something went wrong while trying to login',
+            message: err.message,
             status: 500
         });
     }

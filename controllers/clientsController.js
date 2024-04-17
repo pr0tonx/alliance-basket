@@ -9,11 +9,11 @@ const createClient = async function (req, res) {
         // nullHandler(Object.values(req.body), res);
         // typeHandler(Object.values(req.body), ['string', 'string', '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$', 'string'], res);
 
-        await db.createClient(name, email, password);
+        return await db.createClient(name, email, password);
     } catch (err) {
         res.status(500).send({
             error: 'Internal server error',
-            message: 'Something went wrong.',
+            message: err.message,
             code: 500
         });
         throw err;
