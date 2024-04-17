@@ -1,4 +1,3 @@
-const {typeHandler, nullHandler} = require('../common/errorHandling');
 const db = require('../database/database');
 const clientModel =  require('../model/clientModel')
 
@@ -6,14 +5,11 @@ const createClient = async function (req, res) {
     try {
         const {name, password, email} = req.body;
 
-        // nullHandler(Object.values(req.body), res);
-        // typeHandler(Object.values(req.body), ['string', 'string', '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$', 'string'], res);
-
         await db.createClient(name, null, email, password);
     } catch (err) {
         res.status(500).send({
             error: 'Internal server error',
-            message: 'Something went wrong.',
+            message: 'Something while trying to create a client.',
             code: 500
         });
         throw err;
