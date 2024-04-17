@@ -1,4 +1,5 @@
 const db = require('../database/database');
+const EmptyException = require('../error/EmptyException');
 
 async function getClientById (id) {
     const query = `SELECT * from TB_clients WHERE id_client=?`;
@@ -11,6 +12,10 @@ async function getClientById (id) {
 
 async function search (queryParams) {
   let clients = await searchClient(queryParams)
+  
+  if (clients.length == 0) {
+    throw new EmptyException("No clients found")
+  }
 
   let clientsObj = {}
 

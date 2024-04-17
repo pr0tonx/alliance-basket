@@ -1,5 +1,6 @@
 const db = require('../database/database');
 const clientModel =  require('../model/clientModel')
+const EmptyException = require('../error/EmptyException');
 
 const createClient = async function (req, res) {
     try {
@@ -28,9 +29,16 @@ const getClients = async function (req, res) {
 }
 
 const search = async function (req, res) {
-    let users = await clientModel.search(req.body)
-    
-    return res.status(200).send(users)
+    try {
+        let users = await clientModel.search(req.body)
+        return res.status(200).send(users)
+    } catch (err) {
+        
+    if (err instanceof EmptyException) {
+        return res.status(204).send(err.message);
+      }
+      return res.status(500).send(err.message);
+    }
 }
 
 const getClientById = async function (req, res) {
