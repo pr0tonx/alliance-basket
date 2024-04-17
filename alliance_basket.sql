@@ -23,10 +23,9 @@ CREATE TABLE TB_groups(
 	id_group int PRIMARY KEY NOT NULL AUTO_INCREMENT,
     group_name varchar(100) NOT NULL,
 	id_admin int NOT NULL,
+    admin_only_expenses bool DEFAULT false, 
 	created_at DATETIME NOT NULL DEFAULT NOW(),
     deleted_at DATETIME
---    id_gastos int,
---    foreign key (id_gastos) references TB_gastos(id)
 );
 
 CREATE TABLE TB_members(
@@ -40,21 +39,12 @@ CREATE TABLE TB_members(
 );
 
 -- add the following lines into TB_groups after insert trigger
--- CREATE DEFINER=`root`@`localhost` TRIGGER `tb_groups_AFTER_INSERT` AFTER INSERT ON `tb_groups` FOR EACH ROW BEGIN
--- SET @id_group =  NEW.id_group;
--- SET @id_admin =  NEW.id_admin;
---
--- INSERT INTO tb_members (id_group, id_client) VALUES (@id_group, @id_admin);
--- END
+CREATE DEFINER=`root`@`localhost` TRIGGER `TB_groups_AFTER_INSERT` AFTER INSERT ON `TB_groups` FOR EACH ROW BEGIN
+SET @id_group =  NEW.id_group;
+SET @id_admin =  NEW.id_admin;
+INSERT INTO tb_members (id_group, id_client) VALUES (@id_group, @id_admin);
+END
 
 INSERT INTO TB_groups(group_name, id_admin) VALUE ( "Grupo do churras", 1);
 INSERT INTO TB_groups(group_name, id_admin) VALUE ( "Aniversario jao", 2);
 INSERT INTO TB_groups(group_name, id_admin) VALUE ( "Pagode do sabado", 3);
-
-SELECT * FROM TB_groups;
-SELECT * FROM TB_members;
-
-SELECT id_group, group_name, id_client, name FROM TB_members
-INNER JOIN TB_clients ON TB_members.id_client = TB_clients.id
-INNER JOIN TB_groups ON TB_members.id_group = TB_groups.id
-WHERE id_client = 1;

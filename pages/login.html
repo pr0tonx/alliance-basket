@@ -31,7 +31,7 @@
                 </div>
                 <p class="lost-password"><a href="">Esqueceu a senha?</a></p>
                 <div class="button-field">
-                    <button id="loginButton" type="submit" onclick="window.location.href='login.html'">Login</button>
+                    <button id="loginButton" type="submit">Login</button>
 
                 </div>
                 <p class="sign-up">Nao tem sua conta ainda? <a href="register.html">Cadastre-se</a></p>
@@ -42,7 +42,7 @@
     
     <div class="Validation-form" id="validationForm">
         <i class="fa-solid fa-circle-exclamation" style="color: #ac1b1b;"></i>
-        <p>Login ou Senha inválidos</p>
+        <p id="errorMessage"></p>
     </div>
     <script type="module" src="../js/login.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

@@ -2,6 +2,7 @@ const signupButton = document.getElementById('signupButton');
 const signupNameInput = document.getElementById('signup-name');
 const signupEmailInput = document.getElementById('signup-email');
 const signupPasswordInput = document.getElementById('signup-password');
+const signupPasswordConfirm = document.getElementById('signup-password-confirm');
 
 const baseUrl = 'http://localhost:8080';
 
@@ -10,6 +11,10 @@ signupButton.addEventListener('click', async (e) => {
 
     const body = {name: signupNameInput.value, email: signupEmailInput.value, password: signupPasswordInput.value};
     const options = {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)};
+
+    if (!validateEqualPassword()){
+        showErrorDifferntPasswords()
+    }
 
     try {
         const response = await fetch(`${baseUrl}/signup`, options);
@@ -33,6 +38,26 @@ signupButton.addEventListener('click', async (e) => {
     }
 });
 
+function validateEqualPassword() {
+    if(signupPasswordInput == '' ||  signupPasswordConfirm == '') {
+        return false
+    }
+
+    if(signupPasswordInput != signupPasswordConfirm) {
+        return false
+    }
+
+    return true
+}
+
+function showErrorDifferntPasswords() {
+
+}
+
+
+function showErrors() {
+    
+}
 
 //Initializate AOS
 document.addEventListener('DOMContentLoaded', function () {

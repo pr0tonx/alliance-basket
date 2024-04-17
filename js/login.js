@@ -14,7 +14,6 @@ loginButton.addEventListener('click', async (e) => {
         const res = await response.json();
 
         if (res.error) {
-            showError();
             return;
         }
 
@@ -28,8 +27,20 @@ loginButton.addEventListener('click', async (e) => {
     }
 });
 
-function showError(){
-    const Error = document.getElementById('validationForm');
+function showError(err){
+    const errorDiv = document.getElementById('validationForm');
+    const errorP = document.getElementById('errorMessage');
+    switch (err.code) {
+        case 400:
+            errorP.textContent = "Preencha todos os campos"
+            break
+        case 401:
+            errorP.textContent = "Email ou senha invalidos"
+            break
+        case 422:
+            errorP.textContent = "Usuario duplicado"
+            break
+    }
     errorDiv.style.visibility = 'visible';
 }
 
