@@ -145,7 +145,7 @@
         </div>
     </main>
 
-    <div id="ModalFormGroup" class="modal">
+    <div id="ModalFormGroup" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
 
@@ -187,11 +187,11 @@
                     <label for="preference-container">Configurações:</label>
                     <div class="preference-container">
                         <label>
-                            <input type="radio" name="preference" value="all">
+                            <input type="radio" id="all" name="preference" value="0" checked>
                             Todos os usuários adicionarem despesas
                         </label>
                         <label>
-                            <input type="radio" name="preference" value="OnlyOne">
+                            <input type="radio" id="onlyOne" name="preference" value="1">
                             Somente o criador adicionar despesas
                         </label>
 
@@ -218,14 +218,6 @@
                 });
             });
         });
-
-
-        // Fechar o modal ao carregar a página
-        document.addEventListener("DOMContentLoaded", function () {
-            var modal = document.getElementById("ModalFormGroup");
-            modal.style.display = "none";
-        });
-
 
         //Abrir o modal 
         function openModal() {
