@@ -24,14 +24,13 @@ async function signin(email, password) {
     const query = `SELECT * FROM TB_clients WHERE (email, password) VALUES (?, ?)`;
     const values = [email, password];
 
-    return await pool.query(query, values) || false;
+    return await pool.query(query, values);
 }
 
 /** CLIENTS **/
-async function createClient(name, phoneNumber, email, password) {
-    const query = `INSERT INTO TB_clients (name, phone_number, email, password) VALUES (?, ?, ?, ?)`;
-    const values = [name, phoneNumber, email, password];
-
+async function createClient(name, email, password) {
+    const query = `INSERT INTO TB_clients (name, email, password) VALUES (?, ?, ?)`;
+    const values = [name, email, password];
     const [rows] = await pool.query(query, values);
 
     return rows;

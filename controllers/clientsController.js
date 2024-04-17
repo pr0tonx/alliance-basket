@@ -9,7 +9,7 @@ const createClient = async function (req, res) {
         // nullHandler(Object.values(req.body), res);
         // typeHandler(Object.values(req.body), ['string', 'string', '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$', 'string'], res);
 
-        await db.createClient(name, null, email, password);
+        await db.createClient(name, email, password);
     } catch (err) {
         res.status(500).send({
             error: 'Internal server error',
@@ -41,6 +41,7 @@ const getClientById = async function (req, res) {
         res.status(500).send('Something went wrong.');
         throw err;
     }
+
 }
 
 const updateClient = async function (req, res) {

@@ -47,7 +47,6 @@ const signup = async function (req, res) {
 
         req.body.isFirstLogin = true;
         req.body.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
-
         await clientsController.createClient(req, res);
 
         await login(req, res);
