@@ -29,3 +29,9 @@ signupButton.addEventListener('click', async (e) => {
 });
 
 
+//Initializate AOS
+document.addEventListener('DOMContentLoaded', function () {
+    AOS.init();
+});
+
+

@@ -16,27 +16,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
         integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- import AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <title>Criar grupo</title>
 </head>
 
 <body>
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="" class="nav-logo">AllianceBasket</a>
+            <a href="../index.html" class="nav-logo">AllianceBasket</a>
 
             <div class="nav-menu show-menu" id="nav-menu">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="" class="nav-link">Criar grupo</a>
+                        <a href="createGroup.html" class="nav-link">Criar grupo</a>
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">Meus grupos</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Funcionamento</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Reclamações</a>
+                        <a href="" class="nav-link">Sobre nós</a>
                     </li>
                 </ul>
 
@@ -45,8 +44,20 @@
                 </div>
             </div>
 
-            <div class="nav-actions">
-                <i class="ri-user-fill nav-login" id="login-btn"></i>
+            <div class="nav-actions" ">
+                <button id=" user-menu-button" onclick="Menuclicado();"><i class="ri-user-fill nav-login"
+                    id="login-btn"></i></button>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><i class="fa-regular fa-user"></i><a href="profile.html">Meu Perfil</a></li>
+
+                        <!-- ADMIN
+                        <li><i class="fa-solid fa-table-columns"></i><a href="#">Controlar</a></li> -->
+
+                        <li><i class="fa-solid fa-right-from-bracket"></i><a href="#">Sair</a></li>
+
+                    </ul>
+                </div>
 
                 <div class="nav-toggle" id="nav-toggle">
                     <i class="ri-menu-line"></i>
@@ -55,63 +66,72 @@
         </nav>
     </header>
     <main>
-        <div class="title-div">
-            <h1 class="title">Criando seu grupo</h1>
-        </div>
-        
-
-        <div class="container-text">
-            <p class="subtitle">Nossa plataforma permite que você crie grupos personalizados de forma simples e
-                intuitiva. Siga os passos
-                abaixo para criar o seu grupo:</p>
-            <div class="steps-container">
-                <div class="step">
-                    <div class="number"><i class="fa-solid fa-1" style="color:#fc5185;"></i></div>
-                    <div class="step-content">
-                        <span>Nome do Grupo:</span> Escolha um nome que represente bem o seu grupo. Pode ser o nome de
-                        uma equipe, projeto ou qualquer outro tema relevante.
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="number"><i class="fa-solid fa-2" style="color:#fc5185;"></i></div>
-                    <div class="step-content">
-                        <p><span>Descrição:</span> Descreva brevemente o propósito do grupo. Isso ajudará os
-                            participantes a entenderem do que se trata e o que esperar ao participar.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="number"><i class="fa-solid fa-3" style="color:#fc5185;"></i></div>
-                    <div class="step-content">
-                        <p><span>Tipo de Grupo:</span> Selecione o tipo de grupo que melhor se encaixa na sua
-                            necessidade. Pode ser um grupo de estudo, de trabalho, social, entre outros.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="number"><i class="fa-solid fa-4" style="color:#fc5185;"></i></div>
-                    <div class="step-content">
-                        <p><span>Adicionar Participantes:</span> Adicione os membros que farão parte do grupo. Você pode
-                            convidá-los por e-mail ou através de um link de convite.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="number"><i class="fa-solid fa-5" style="color:#fc5185;"></i></div>
-                    <div class="step-content">
-                        <p><span>Configurações Adicionais:</span> Personalize as configurações do grupo de acordo com
-                            suas preferências. Você pode definir regras, permissões e outras configurações para melhor
-                            atender às necessidades do grupo.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="number"><i class="fa-solid fa-6" style="color:#fc5185;"></i></div>
-                    <div class="step-content">
-                        <p><span>Criar Grupo:</span> Após preencher todas as informações, clique em "Criar Grupo" para
-                            finalizar o processo. Seu grupo estará pronto para uso e os participantes poderão começar a
-                            interagir imediatamente.</p>
-                    </div>
-                </div>
-
-
+        <div class="container-main" data-aos="zoom-out-down" data-aos-duration="700">
+            <div class="title-div">
+                <h1 class="title">Criando seu grupo</h1>
             </div>
+
+
+            <div class="container-text">
+                <p class="subtitle">Nossa plataforma permite que você crie grupos personalizados de forma simples e
+                    intuitiva. Siga os passos
+                    abaixo para criar o seu grupo:</p>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="number"><i class="fa-solid fa-1" style="color:#fc5185;"></i></div>
+                        <div class="step-content">
+                            <span>Nome do Grupo:</span> Escolha um nome que represente bem o seu grupo. Pode ser o nome
+                            de
+                            uma equipe, projeto ou qualquer outro tema relevante.
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number"><i class="fa-solid fa-2" style="color:#fc5185;"></i></div>
+                        <div class="step-content">
+                            <p><span>Descrição:</span> Descreva brevemente o propósito do grupo. Isso ajudará os
+                                participantes a entenderem do que se trata e o que esperar ao participar.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number"><i class="fa-solid fa-3" style="color:#fc5185;"></i></div>
+                        <div class="step-content">
+                            <p><span>Tipo de Grupo:</span> Selecione o tipo de grupo que melhor se encaixa na sua
+                                necessidade. Pode ser um grupo de estudo, de trabalho, social, entre outros.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number"><i class="fa-solid fa-4" style="color:#fc5185;"></i></div>
+                        <div class="step-content">
+                            <p><span>Adicionar Participantes:</span> Adicione os membros que farão parte do grupo. Você
+                                pode
+                                convidá-los por e-mail ou através de um link de convite.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number"><i class="fa-solid fa-5" style="color:#fc5185;"></i></div>
+                        <div class="step-content">
+                            <p><span>Configurações Adicionais:</span> Personalize as configurações do grupo de acordo
+                                com
+                                suas preferências. Você pode definir regras, permissões e outras configurações para
+                                melhor
+                                atender às necessidades do grupo.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number"><i class="fa-solid fa-6" style="color:#fc5185;"></i></div>
+                        <div class="step-content">
+                            <p><span>Criar Grupo:</span> Após preencher todas as informações, clique em "Criar Grupo"
+                                para
+                                finalizar o processo. Seu grupo estará pronto para uso e os participantes poderão
+                                começar a
+                                interagir imediatamente.</p>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
             <div class="advice-create">
                 <div class="advice">
                     <i class="fa-solid fa-check"></i>
@@ -194,7 +214,7 @@
             typeButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     // Impede o comportamento padrão do botão
-                    event.preventDefault(); 
+                    event.preventDefault();
                 });
             });
         });
@@ -203,10 +223,10 @@
         // Fechar o modal ao carregar a página
         document.addEventListener("DOMContentLoaded", function () {
             var modal = document.getElementById("ModalFormGroup");
-            modal.style.display = "none"; 
+            modal.style.display = "none";
         });
 
-        
+
         //Abrir o modal 
         function openModal() {
             document.getElementById("ModalFormGroup").style.display = "block";
@@ -237,8 +257,8 @@
 
         // =================== HEADER ======================
         const navMenu = document.getElementById("nav-menu"),
-              navToggle = document.getElementById("nav-toggle"),
-              navClose = document.getElementById("nav-close");
+            navToggle = document.getElementById("nav-toggle"),
+            navClose = document.getElementById("nav-close");
 
         // Remova a classe 'show-menu' ao carregar a página
         navMenu.classList.remove("show-menu");
@@ -277,7 +297,7 @@
                     userDiv.classList.add("userItem");
 
                     userDiv.textContent = personName;
-                    
+
                     //Criação do botão de remover usuário
                     var removeButton = document.createElement("button");
 
@@ -289,15 +309,26 @@
                         userDiv.remove();
                     });
 
-                 
+
                     //Limpando o valor do input 
                     personNameInput.value = "";
                 }
             });
         });
 
+        //Open user menu
+        function Menuclicado() {
+            const clicado = document.querySelector('.dropdown-menu');
+            clicado.classList.toggle('ativado')
+        }
+
+        //Initializate AOS
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init();
+        });
 
     </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 
 </html>

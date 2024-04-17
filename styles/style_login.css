@@ -16,6 +16,10 @@
     font-family: Roboto;
 }
 
+body{
+    overflow: hidden;
+}
+
 .container{
     width: 100%;
     height: 100vh;
@@ -147,4 +151,41 @@ input{
 
 .logo a {
     text-decoration: none;
+}
+
+.Validation-form{
+    visibility: hidden;
+    position: absolute;
+    width: 20rem;
+    height: 4.5rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    padding: 0 0 0 1rem ;
+    border: 1px solid #b3b2b2;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    color: red;
+    font-weight:600;
+    animation: slideIn 0.4s forwards, fadeOut 1s forwards 2.5s;
+    gap: 0.5rem;
+}
+
+@keyframes slideIn {
+    from {
+        transform:translateY(100%)
+    }    
+    to{
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeOut{
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
 }

@@ -17,17 +17,19 @@
     font-family: Roboto;
 }
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
     display: grid;
-    margin: 0;
-    padding: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
+
+
 
 /* Default setting */
 
@@ -156,12 +158,21 @@ main {
     text-align: center;
     background-color: var(--primary);
     color: white;
-    flex-grow: 1; 
+    flex-grow: 1;
     overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-main {
+    display: flex;
+    flex-direction: column;
+    max-width: 1600px;
 }
 
 
-.title-div{
+.title-div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -169,7 +180,6 @@ main {
 
 .title {
     font-size: 3.5rem;
-    padding-top: 4rem;
     position: relative;
 }
 
@@ -182,7 +192,8 @@ main {
     background-size: contain;
     background-repeat: no-repeat;
     position: absolute;
-    bottom: -15px; /* Ajuste o valor conforme necessário para mover mais abaixo */
+    bottom: -15px;
+    /* Ajuste o valor conforme necessário para mover mais abaixo */
     left: 0;
 }
 
@@ -215,14 +226,15 @@ main {
 .step-content {
     height: 70%;
     font-size: 16px;
-    text-align: center;
     line-height: 1.5;
-    
+    text-align: justify;
 }
 
 .step-content span {
     font-weight: bold;
 }
+
+
 
 .number i {
     display: flex;
@@ -270,12 +282,6 @@ main {
 }
 
 
-
-
-
-
-
-
 /* ========================================== Modal ========================================== */
 
 .modal {
@@ -289,26 +295,31 @@ main {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
     background-color: rgba(0, 0, 0, 0.4);
     margin-top: 2rem;
-   
+
 }
 
 /* Estilos do conteúdo do modal */
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto;
-    /* Adjust the percentage as needed */
     border: 1px solid #888;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
-    max-width: 35em;
     padding: 2em;
-    position: relative;
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 10px;
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: hidden; 
+    box-sizing: border-box; 
 }
+
 
 /* Estilos para o botão de fechar */
 .close-modal {
@@ -319,7 +330,7 @@ main {
     position: absolute;
     top: 0.5rem;
     right: 1rem;
-   
+
     /* Garante que o botão esteja acima do conteúdo do modal */
 }
 
@@ -350,20 +361,12 @@ textarea {
     box-sizing: border-box;
 }
 
-.input-dentro span{
+.input-dentro span {
     font-size: 14px;
     color: #909090;
 }
 
-#datePicker {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-}
+
 
 .botao-criar {
     display: flex;
@@ -375,39 +378,36 @@ textarea {
     /* Cor de fundo do botão */
     color: white;
     font-weight: bold;
-    /* Cor do texto */
     padding: 15px 20px;
-    /* Espaçamento interno do botão */
     border: none;
-    /* Remove a borda */
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     width: 60%;
-    margin-top:1rem;
+    margin-top: 1rem;
 }
 
-.criar:hover{
+.criar:hover {
     cursor: pointer;
     background-color: var(--primary-dark);
 }
 
 
-.input-dentro:nth-child(3){
+.input-dentro:nth-child(3) {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.container-types{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    
+.container-types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+
 }
 
-.container-types button{
-    padding:10px;
+.container-types button {
+    padding: 10px;
     margin: 5px 0 15px 0;
     border: 2px solid var(--primary);
     background-color: white;
@@ -416,24 +416,24 @@ textarea {
     box-sizing: border-box;
 }
 
-.container-types button:hover{
+.container-types button:hover {
     cursor: pointer;
     background-color: var(--primary);
     color: white;
 }
 
-.add-persons input{
+.add-persons input {
     width: 75%;
 }
 
-.add-persons{
+.add-persons {
     display: flex;
     flex-direction: col;
     align-items: center;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
-.add-persons button{
+.add-persons button {
     width: 20%;
     padding: 10px;
     margin: 5px 0 15px 0;
@@ -446,24 +446,24 @@ textarea {
     box-sizing: border-box;
 }
 
-.add-persons button:hover{
+.add-persons button:hover {
     cursor: pointer;
     background-color: var(--success-dark);
 }
 
-.input-dentro:nth-child(5){
+.input-dentro:nth-child(5) {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.input-dentro:nth-child(6){
+.input-dentro:nth-child(6) {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.preference-container{
+.preference-container {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -488,8 +488,145 @@ textarea {
     font-weight: bold;
 }
 
-.userItem button:hover{
+.userItem button:hover {
     background-color: #af2c1e;
-    
 }
 
+/* User CSS */
+.dropdown-menu ul li {
+    list-style: none;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 4.5em;
+    right: 2em;
+    padding: 10px 20px;
+    width: 200px;
+    box-sizing: 0 5px 25px rgba(0, 0, 0, 0, 1);
+    display: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: var(--primary);
+    border-radius: 5px;
+}
+
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 1.5em;
+    width: 25px;
+    height: 20px;
+    background-color: var(--primary);
+    transform: rotate(45deg);
+}
+
+.dropdown-menu.ativado {
+    display: block;
+}
+
+.dropdown-menu ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+}
+
+.dropdown-menu ul li:first-child {
+    padding-top: 1rem;
+}
+
+.dropdown-menu ul li {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+
+}
+
+.dropdown-menu ul li:last-of-type {
+    padding-bottom: 1em;
+}
+
+.dropdown-menu ul li i {
+    color: white;
+    transition: ease 0.5s;
+    padding: 5px 0 0 0;
+}
+
+.dropdown-menu ul li:hover i {
+    opacity: 1;
+    scale: 1.1;
+}
+
+.dropdown-menu ul li a {
+    display: inline;
+    text-decoration: none;
+    color: rgb(214, 214, 214);
+    font-weight: 500;
+    transition: ease 0.5s;
+    padding: 5px 0 0 0;
+}
+
+.dropdown-menu ul li:hover a {
+    color: white;
+}
+
+.nav-actions button {
+    border: none;
+    outline: none;
+    background-color: white;
+}
+
+@media screen and (max-width:1700px) {
+    .title {
+        font-size: 3rem;
+    }
+
+
+    .subtitle {
+        margin-top: 1rem;
+        font-size: 1.25rem;
+    }
+
+    .steps-container {
+        padding: 4rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .step {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .step-content {
+        font-size: 14px;
+    }
+
+    .number i {
+        width: 3rem;
+        height: 3rem;
+        font-size: 20px;
+    }
+
+    .advice {
+        font-size: 16px;
+    }
+
+    .advice p {
+        font-size: 16px;
+    }
+
+    .btn-create {
+        padding: 15px 60px;
+    }
+    .modal-content{
+        overflow-y: auto; 
+    }
+}
+
+@media screen and (max-width:1300px){
+   
+}

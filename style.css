@@ -1,4 +1,4 @@
-:root{
+:root {
     --primary: #673de6;
     --primary-light: #ebe4ff;
     --primary-dark: #5025d1;
@@ -6,6 +6,8 @@
     --dark: #1d1e20;
     --danger: #fc5185;
     --danger-dark: #d63163;
+    --success: #2ae396;
+    --success-dark: #008361;
 }
 
 *{
@@ -13,6 +15,10 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Roboto;
+}
+
+body{
+    overflow: hidden;
 }
 
 /* Default setting */
@@ -167,7 +173,7 @@ a{
     height: 80%;
     border-radius: 1rem;
     display: flex;
-    animation: slideInLeft 1s ease-in;
+
     
     
 }
@@ -185,7 +191,6 @@ a{
     padding-bottom: 10px;
     color: var(--dark);
     
-    
 }
 
 .text span{
@@ -201,6 +206,25 @@ a{
     line-height: 1.4;
 }
 
+.benefits-list{
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    gap: 1.5rem;
+    font-size: 20px;
+}
+
+.benefits-list p{
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--meteorite-dark);
+}
+
+.benefits-list p i {
+    color: var(--success);
+}
+
 .image {
     width: 50%;
     display: flex;
@@ -213,12 +237,111 @@ a{
     width:70% ;
     height: 80%;
 }
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+
+/* User CSS */
+.dropdown-menu ul li {
+    list-style: none;
 }
 
+.dropdown-menu {
+    position: absolute;
+    top: 4.5em;
+    right: 2em;
+    padding: 10px 20px;
+    width: 200px;
+    box-sizing: 0 5px 25px rgba(0, 0, 0, 0, 1);
+    display: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: var(--primary);
+    border-radius: 5px;
+}
+
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 1.5em;
+    width: 25px;
+    height: 20px;
+    background-color: var(--primary);
+    transform: rotate(45deg);
+    
+
+}
+
+.dropdown-menu.ativado {
+    display: block;
+}
+
+
+
+.dropdown-menu ul{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+}
+
+.dropdown-menu ul li:first-child{
+    padding-top: 1rem;
+}
+
+.dropdown-menu ul li {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    
+}
+
+.dropdown-menu ul li:last-of-type {
+    padding-bottom: 1em;
+}
+
+.dropdown-menu ul li i {
+    color: white;
+    transition: ease 0.5s;
+    padding: 5px 0 0 0;    
+}
+
+.dropdown-menu ul li:hover i {
+    opacity: 1;
+    scale: 1.1;
+}
+
+.dropdown-menu ul li a {
+    display: inline;
+    text-decoration: none;
+    color: rgb(214, 214, 214);
+    font-weight: 500;
+    transition: ease 0.5s;
+    padding: 5px 0 0 0;
+}
+
+.dropdown-menu ul li:hover a {
+    color: white;
+}
+
+.nav-actions button{
+    border: none;
+    outline: none;
+    background-color: white;
+}
+
+@media screen and (max-width:1300px){
+    .text h1{
+        font-size: 2.5rem;
+    }
+
+    .text p{
+        font-size: 0.8rem;
+    }
+
+    .benefits-list{
+        gap: 0.6rem;
+    }
+
+    .benefits-list p{
+        gap: 0.2rem;
+        font-size: 0.8rem;
+    }
+}

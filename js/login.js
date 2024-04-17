@@ -16,7 +16,7 @@ loginButton.addEventListener('click', async (e) => {
         const res = await response.json();
 
         if (res.error) {
-            // faz algo pra mostrar pro usuário
+            showError();
             return;
         }
 
@@ -25,4 +25,12 @@ loginButton.addEventListener('click', async (e) => {
         console.log(err);
     }
 });
+
+function showError(){
+    const Error = document.getElementById('validationForm');
+    errorDiv.style.visibility = 'visible';
+}
+
+//INITIALIZE AOS
+AOS.init();
 

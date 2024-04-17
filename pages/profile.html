@@ -16,27 +16,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
         integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- import AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <title>Criar grupo</title>
 </head>
 
 <body>
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="" class="nav-logo">AllianceBasket</a>
+            <a href="../index.html" class="nav-logo">AllianceBasket</a>
 
             <div class="nav-menu show-menu" id="nav-menu">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="" class="nav-link">Criar grupo</a>
+                        <a href="createGroup.html" class="nav-link">Criar grupo</a>
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">Meus grupos</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Funcionamento</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Reclamações</a>
+                        <a href="" class="nav-link">Sobre nós</a>
                     </li>
                 </ul>
 
@@ -45,13 +44,15 @@
                 </div>
             </div>
 
-            <div class="nav-actions" onclick="Menuclicado();">
-                <button id="user-menu-button"><i class="ri-user-fill nav-login" id="login-btn"></i></button>
+            <div class="nav-actions" ">
+                <button id=" user-menu-button" onclick="Menuclicado();"><i class="ri-user-fill nav-login"
+                    id="login-btn"></i></button>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><i class="fa-regular fa-user"></i><a href="#">Meu Perfil</a></li>
+                        <li><i class="fa-regular fa-user"></i><a href="profile.html">Meu Perfil</a></li>
 
-                        <li><i class="fa-solid fa-table-columns"></i><a href="#">Controlar</a></li>
+                        <!-- ADMIN
+                        <li><i class="fa-solid fa-table-columns"></i><a href="#">Controlar</a></li> -->
 
                         <li><i class="fa-solid fa-right-from-bracket"></i><a href="#">Sair</a></li>
 
@@ -67,9 +68,7 @@
 
 
     <div class="main">
-
-        <div class="container-profile">
-
+        <div class="container-profile" data-aos="fade-up-right" data-aos-easing="ease-out-cubic" data-aos-duration="700">
             <div class="image">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ5_9U4q4wQ-fQzvbjia1NAg6fsJdSf4EfukQUf9z82A&s"
                     alt="">
@@ -85,36 +84,27 @@
                         <div class="input-icone">
                             <input type="text" id="adjunct" name="adjunct" placeholder="Eduardo Affonso Zacarias"
                                 readonly>
-                            <button class="edit"><i class="ri-edit-line" style="color:white;"></i></button>
-                        </div>
-                    </div>
-                    <div class="input-dentro">
-                        <label for="adjunct">Email</label>
-                        <div class="input-icone">
-                            <input type="text" id="adjunct" name="adjunct" placeholder="Eduardo@gmail.com">
-                            <button class="edit"><i class="ri-edit-line" style="color:white;"
-                                    aria-readonly="true"></i></button>
-                        </div>
-                    </div>
-                    <div class="input-dentro">
-                        <label for="adjunct">Senha</label>
-                        <div class="input-icone">
-                            <input type="text" id="adjunct" name="adjunct" placeholder="************">
-                            <div class="buttons">
-                                <button class="check"><i class="ri-check-line"></i></button>
-                                <button class="close"><i class="ri-close-line"></i></button>
-                            </div>
 
                         </div>
                     </div>
-
-
                 </div>
+                <div class="input-dentro">
+                    <label for="adjunct">Email</label>
+                    <div class="input-icone">
+                        <input type="text" id="adjunct" name="adjunct" placeholder="Eduardo@gmail.com" readonly>
 
+                    </div>
+                </div>
+                <div class="input-dentro">
+                    <label for="adjunct">Senha</label>
+                    <div class="input-icone">
+                        <input type="text" id="adjunct" name="adjunct" placeholder="************" readonly>
 
+                    </div>
+                </div>
             </div>
-
         </div>
+    </div>
     </div>
     <script>
         // =================== HEADER ======================
@@ -140,7 +130,14 @@
             const clicado = document.querySelector('.dropdown-menu');
             clicado.classList.toggle('ativado')
         }
+
+        //Initializate AOS
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init();
+        });
+
     </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 
 </html>
