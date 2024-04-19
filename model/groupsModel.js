@@ -1,4 +1,5 @@
 const db = require('../database/database');
+const EmptyException = require('../error/EmptyException');
 
 class Group {
     constructor({id_group, group_name, id_admin, created_at, deleted_at}){

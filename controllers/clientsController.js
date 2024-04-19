@@ -1,5 +1,6 @@
 const db = require('../database/database');
 const clientModel =  require('../model/clientModel')
+const EmptyException = require('../error/EmptyException');
 
 const createClient = async function (req, res) {
     try {
@@ -83,12 +84,19 @@ const reactivateClient = async function (req, res) {
 }
 const getAllGroups = async function (req, res) {
   const {clientId} = req.params;
+
   try {
 
     let groups = await clientModel.getClientGroups(clientId);
     return res.status(200).send(groups)
+
   } catch (err) {
 
+    if (err instanceof EmptyException) {
+      return res.status(204).send(err.message);
+    }
+
+    return res.status(500).send(err.message)
   }
 }
 
