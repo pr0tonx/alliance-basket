@@ -11,11 +11,8 @@ services:
     volumes:
      - ./:/usr/src/app
      - /usr/src/app/node_modules
-    environment:
-      MYSQL_HOST: db 
-      MYSQL_USER: root 
-      PASSWORD: root 
-      MYSQL_DATABASE: alliance_basket 
+    env_file:
+      - .env
 
   db:
     image: mysql:5.7
