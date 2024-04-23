@@ -1,4 +1,5 @@
 const db = require('../database/database')
+const groupModel = require('../model/groupsModel')
 
 
 async function getClientById (id) {
@@ -10,7 +11,12 @@ async function getClientById (id) {
     return client[0];
 }
 
+async function getClientGroups (id) {
+  return groupModel.getAllGroupsFromClient(id)
+}
+
 module.exports = {
-  getClientById 
+  getClientById ,
+  getClientGroups
 }
 
