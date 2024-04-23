@@ -28,6 +28,19 @@ const getClients = async function (req, res) {
     }
 }
 
+const search = async function (req, res) {
+    try {
+        let users = await clientModel.search(req.body)
+        return res.status(200).send(users)
+    } catch (err) {
+        
+    if (err instanceof EmptyException) {
+        return res.status(204).send(err.message);
+      }
+      return res.status(500).send(err.message);
+    }
+}
+
 const getClientById = async function (req, res) {
     try {
         const {id} = req.params;
@@ -107,5 +120,6 @@ module.exports = {
     updateClient,
     deleteClient,
     reactivateClient,
-    getAllGroups
+    search,
+    getAllGroups,
 }
