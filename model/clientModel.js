@@ -1,5 +1,6 @@
 const db = require('../database/database');
 const EmptyException = require('../error/EmptyException');
+const groupModel = require('../model/groupsModel')
 
 async function getClientById (id) {
     const query = `SELECT * from TB_clients WHERE id_client=?`;
@@ -26,6 +27,10 @@ async function search (queryParams) {
   return clientsObj
 }
 
+async function getClientGroups (id) {
+  return groupModel.getAllGroupsFromClient(id)
+}
+
 async function searchClient (params) {
   let queryParams = Object.keys(params)
   let query = `SELECT * FROM TB_clients WHERE `
@@ -43,5 +48,7 @@ async function searchClient (params) {
 
 module.exports = {
   getClientById,
-  search
+  search,
+  getClientGroups,
 }
+

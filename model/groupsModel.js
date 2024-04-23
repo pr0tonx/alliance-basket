@@ -1,4 +1,5 @@
 const db = require('../database/database');
+const EmptyException = require('../error/EmptyException');
 
 class Group {
     constructor({id_group, group_name, id_admin, created_at, deleted_at}){
@@ -26,7 +27,30 @@ function isValidAdmin(group, adminId){
     return group.id_admin == adminId
 }
 
+async function getAllGroupsIdsFromClient(clientId) {
+    const query = `SELECT id_group FROM TB_members WHERE id_client = ?`
+
+    let [groupsIds] = await db.DBX().query(query, [clientId])
+
+    if (groupsIds.length == 0) {
+    throw new EmptyException("This client is in no group")
+    }
+    return groupsIds
+}
+
+async function getAllGroupsFromClient(clientId) {
+    let groups = {}
+    let groupsIds = await getAllGroupsIdsFromClient(clientId)
+
+    await Promise.all(groupsIds.map(async (group) => {
+        groups[group.id_group] = await getGroupByid(group.id_group);
+    }))
+
+    return groups
+}
+
 module.exports = {
     getGroupByid,
-    isValidAdmin
+    isValidAdmin,
+    getAllGroupsFromClient
 }
