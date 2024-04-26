@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: alliance_basket
+    container_name: alliance-basket
     ports:
       - "8080:8080"
     depends_on:
@@ -16,6 +16,8 @@ services:
       MYSQL_USER: root 
       PASSWORD: root 
       MYSQL_DATABASE: alliance_basket 
+    networks:
+      - alliance-basket
 
   db:
     image: mysql:5.7
@@ -28,3 +30,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: alliance_basket
 
+networks:
+  alliance-basket:
+    external: true
