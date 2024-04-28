@@ -55,15 +55,24 @@ const search = async function (req, res) {
 }
 
 const getClientById = async function (req, res) {
-    try {
-        const {id} = req.params;
+  try {
+    const {id} = req.params;
 
-        const client = await clientModel.getClientById(id);
-        res.status(200).send(client);
-    } catch (err) {
-        res.status(500).send('Something went wrong.');
-        throw err;
-    }
+    const client = await Client.findOne({where : {
+      id: id,
+      status: 1,
+      type: 1
+      }
+    })
+
+    if (client === null) {
+      return res.status(404).send(new EmptyException('Client not found'))
+    } 
+
+    return res.status(200).send(client);
+  } catch (err) {
+    return res.status(500).send('Something went wrong.');
+  }
 }
 
 const updateClient = async function (req, res) {
