@@ -29,6 +29,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: alliance_basket
+    networks:
+      - alliance-basket
 
 networks:
   alliance-basket:
