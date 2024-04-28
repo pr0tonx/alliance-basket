@@ -7,12 +7,13 @@ module.exports = {
     await db.DBX().query(`CREATE TABLE Clients (
       id int PRIMARY KEY AUTO_INCREMENT,
       name varchar(255),
-      email varchar(255),
+      email varchar(255) ,
       password varchar(255),
       status BOOL,
       type INTEGER,
       createdAt DATETIME NOT NULL DEFAULT NOW(),
-      updatedAt DATETIME NOT NULL DEFAULT NOW()
+      updatedAt DATETIME NOT NULL DEFAULT NOW(),
+      UNIQUE(email)
     )`)
 
     await db.DBX().query(`CREATE TABLE Groups(

@@ -1,20 +1,30 @@
 const db = require('../database/database');
 const clientModel =  require('../model/clientModel')
 const EmptyException = require('../error/EmptyException');
+const InvalidFieldException = require('../error/InvalidFieldException');
+const RequiredFieldException = require('../error/RequiredFieldException');
+const UserExistsException = require('../error/UserExistsException');
 const Client = require('../models/Client');
 
 const createClient = async function (req, res) {
     try {
-      let user = await Client.create({name : "haha", "email": "dhasdkasd", "password": "dasdasda"})
+      let user = await Client.create(req.body)
       return res.status(200).send(user)
-    } catch (err) {
-        res.status(500).send({
-            error: 'Internal server error',
-            message: 'Something while trying to create a client.',
-            code: 500
-        });
-        throw err;
-    }
+    } catch (error) {
+      if (error instanceof InvalidFieldException) {
+        return res.status(400).send(error);
+      }
+
+      if (error instanceof RequiredFieldException) {
+        return res.status(400).send(error);
+      }
+
+      if (error instanceof UserExistsException) {
+        return res.status(400).send(error);
+      }
+
+      return res.status(500).send(error.message);
+  }
 }
 
 const getClients = async function (req, res) {
