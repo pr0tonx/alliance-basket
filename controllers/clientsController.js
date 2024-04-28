@@ -28,14 +28,17 @@ const createClient = async function (req, res) {
 }
 
 const getClients = async function (req, res) {
-    try {
-        const clients = await db.getClients();
-
-        res.status(200).send(clients);
-    } catch (err) {
-        res.status(500).send('Something went wrong.');
-        throw err;
-    }
+  try {
+    const clients = await Client.findAll({
+      where : {
+        status: 1,
+        type: 1,
+      }
+    })
+    res.status(200).send(clients);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 }
 
 const search = async function (req, res) {
