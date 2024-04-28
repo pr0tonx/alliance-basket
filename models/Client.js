@@ -5,6 +5,7 @@ const config = require(__dirname + '/../config/config.json')[env];
 const RequiredFieldException = require('../error/RequiredFieldException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const UserExistsException = require('../error/UserExistsException');
+const EmptyException = require('../error/EmptyException.js');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 class Client extends Model {
@@ -38,6 +39,28 @@ class Client extends Model {
     if (await this.findOne({ where : { email: email}})) {
       throw new UserExistsException(email)
     }
+  }
+
+  static async findOne(values) {
+    let client = await super.findOne(values)
+    console.log(client)
+    if (client === null) {
+      throw new EmptyException('Client not found')
+    } 
+
+    return client
+  }
+
+  static async softDeleteClient(id) {
+    let client = await this.findOne({where : {
+      id: id,
+      status: 1,
+      type: 1
+      }
+    })
+    client.status = 0
+
+    return await client.save()
   }
 }
 

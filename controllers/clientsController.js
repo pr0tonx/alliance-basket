@@ -57,21 +57,20 @@ const search = async function (req, res) {
 const getClientById = async function (req, res) {
   try {
     const {id} = req.params;
-
+    
     const client = await Client.findOne({where : {
       id: id,
       status: 1,
       type: 1
       }
     })
-
-    if (client === null) {
-      return res.status(404).send(new EmptyException('Client not found'))
-    } 
-
     return res.status(200).send(client);
   } catch (err) {
+    if (err instanceof EmptyException){
+      return res.status(204).send(err)
+    }
     return res.status(500).send('Something went wrong.');
+
   }
 }
 
@@ -89,19 +88,16 @@ const updateClient = async function (req, res) {
     }
 }
 
-// FIXME sql error when trying to add a TIMESTAMP
 // TODO when deleting a user, the group admin must be transfered to another user if there is one
 const deleteClient = async function (req, res) {
-    try {
-        const {id} = req.params;
+  try {
+    const {id} = req.params;
+    await Client.softDeleteClient(id) 
 
-        await db.deleteClient(id);
-
-        res.status(200).send('User deleted successfully.');
-    } catch (err) {
-        res.status(500).send('Something went wrong.');
-        throw err;
-    }
+    return res.status(200).send({message: 'User deleted successfully.'});
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
 }
 
 // FIXME sql error when trying to add a TIMESTAMP
