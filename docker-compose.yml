@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   app:
     build: .
-    container_name: alliance_basket
+    container_name: alliance-basket
     ports:
       - "8080:8080"
     depends_on:
@@ -11,8 +9,13 @@ services:
     volumes:
      - ./:/usr/src/app
      - /usr/src/app/node_modules
-    env_file:
-      - .env
+    environment:
+      MYSQL_HOST: db 
+      MYSQL_USER: root 
+      PASSWORD: root 
+      MYSQL_DATABASE: alliance_basket 
+    networks:
+      - alliance-basket
 
   db:
     image: mysql:5.7
@@ -24,3 +27,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: alliance_basket
+    networks:
+      - alliance-basket
+
+networks:
+  alliance-basket:
+    external: true

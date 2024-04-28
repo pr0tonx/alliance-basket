@@ -61,19 +61,19 @@ function addEntryToError(errorArray, errorKey, entry) {
 }
 
 async function listAllMembers (groupId) {
-  let members = []
+  let members = {}
 
   let membersId = await getGroupMembersId(groupId) 
   await Promise.all(membersId.map(async (member) => {
-    members.push(await clientModel.getClientById(member.id_members))
+    members[member.id_members] = await clientModel.getClientById(member.id_members);
   }))
 
   return members
 }
 
-async function getGroupMembersId(groupId) {
+async function getGroupMembersId(group_id) {
   let query = "SELECT id_members FROM TB_members where id_group = ?"
-  let values = [groupId]
+  let values = [group_id]
   let [membersId] = await db.DBX().query(query, values)
  
   if (membersId.length == 0) {

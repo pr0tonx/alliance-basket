@@ -1,5 +1,6 @@
 const db = require('../database/database');
 const clientModel =  require('../model/clientModel')
+const EmptyException = require('../error/EmptyException');
 
 const createClient = async function (req, res) {
     try {
@@ -24,6 +25,19 @@ const getClients = async function (req, res) {
     } catch (err) {
         res.status(500).send('Something went wrong.');
         throw err;
+    }
+}
+
+const search = async function (req, res) {
+    try {
+        let users = await clientModel.search(req.body)
+        return res.status(200).send(users)
+    } catch (err) {
+        
+    if (err instanceof EmptyException) {
+        return res.status(204).send(err.message);
+      }
+      return res.status(500).send(err.message);
     }
 }
 
@@ -81,6 +95,23 @@ const reactivateClient = async function (req, res) {
         throw err;
     }
 }
+const getAllGroups = async function (req, res) {
+  const {clientId} = req.params;
+
+  try {
+
+    let groups = await clientModel.getClientGroups(clientId);
+    return res.status(200).send(groups)
+
+  } catch (err) {
+
+    if (err instanceof EmptyException) {
+      return res.status(204).send(err.message);
+    }
+
+    return res.status(500).send(err.message)
+  }
+}
 
 module.exports = {
     getClients,
@@ -88,5 +119,7 @@ module.exports = {
     getClientById,
     updateClient,
     deleteClient,
-    reactivateClient
+    reactivateClient,
+    search,
+    getAllGroups,
 }
