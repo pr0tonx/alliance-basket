@@ -7,7 +7,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router()
 
-router.post('/', authMiddleware.isAuth, async (req, res) => clientController.createClient(req, res));
+router.post('/' , async (req, res) => clientController.createClient(req, res));
 router.get('/', authMiddleware.isAuth, async (req, res) => clientController.getClients(req, res));
 router.get('/:id', authMiddleware.isAuth, async (req, res) => clientController.getClientById(req, res));
 router.post('/search', async (req, res) => clientController.search(req, res))
@@ -16,6 +16,13 @@ router.post('/search', async (req, res) => clientController.search(req, res))
 router.put('/:id', authMiddleware.isAuth, async (req, res) => clientController.updateClient(req, res));
 router.delete('/:id', authMiddleware.isAuth, async (req, res) => clientController.deleteClient(req, res));
 router.patch('/:id', authMiddleware.isAuth, async (req, res) => clientController.reactivateClient(req, res));
+
+
+
+
+
+
+
 
 /** GROUPS **/
 // FIX: https://trello.com/c/fVvydRA0/25-move-groups-endpoint-to-groups-entity-insted-of-clients

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "npx nodemon app.js"
+    "dev": "npx nodemon app.js",
+    "migrate-up": "npx sequelize-cli db:migrate",
+    "migrate-down": "npx sequelize-cli db:migrate:undo"
   },
   "keywords": [],
   "author": "",

@@ -1,12 +1,12 @@
 const db = require('../database/database');
 const clientModel =  require('../model/clientModel')
 const EmptyException = require('../error/EmptyException');
+const Client = require('../models/Client');
 
 const createClient = async function (req, res) {
     try {
-        const {name, password, email} = req.body;
-
-        await db.createClient(name, null, email, password);
+      let user = await Client.create({name : "haha", "email": "dhasdkasd", "password": "dasdasda"})
+      return res.status(200).send(user)
     } catch (err) {
         res.status(500).send({
             error: 'Internal server error',
