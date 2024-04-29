@@ -23,7 +23,7 @@ const createClient = async function (req, res) {
         return res.status(400).send(error);
       }
 
-      return res.status(500).send(error.message);
+      return res.status(500).send(error);
   }
 }
 
@@ -37,7 +37,7 @@ const getClients = async function (req, res) {
     })
     res.status(200).send(clients);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).send(err);
   }
 }
 
@@ -48,9 +48,9 @@ const search = async function (req, res) {
     } catch (err) {
         
     if (err instanceof EmptyException) {
-        return res.status(204).send(err.message);
+        return res.status(204).send(err);
       }
-      return res.status(500).send(err.message);
+      return res.status(500).send(err);
     }
 }
 
@@ -67,25 +67,28 @@ const getClientById = async function (req, res) {
     return res.status(200).send(client);
   } catch (err) {
     if (err instanceof EmptyException){
-      return res.status(204).send(err)
+      return res.status(400).send(err)
     }
-    return res.status(500).send('Something went wrong.');
+    return res.status(500).send(err);
 
   }
 }
 
 const updateClient = async function (req, res) {
-    try {
-        const {id} = req.params;
-        const {name, password, phoneNumber, email} = req.body;
+  try {
+    const {id} = req.params;
+    let client = await Client.updateClient(id, req.body);
 
-        await db.updateClient(id, name, password, phoneNumber, email);
-
-        res.status(200).send('User updated successfully.');
-    } catch (err) {
-        res.status(500).send('Something went wrong.');
-        throw err;
+    return res.status(200).send(client);
+  } catch (err) {
+    if (err instanceof EmptyException) {
+      return res.status(400).send(err)
     }
+    if (err instanceof InvalidFieldException) {
+      return res.status(400).send(err)
+    }
+    return res.status(500).send(err);
+  }
 }
 
 // TODO when deleting a user, the group admin must be transfered to another user if there is one
@@ -102,16 +105,17 @@ const deleteClient = async function (req, res) {
 
 // FIXME sql error when trying to add a TIMESTAMP
 const reactivateClient = async function (req, res) {
-    try {
-        const {id} = req.params;
-
-        await db.reactivateClient(id);
-
-        res.status(200).send('User reactivated successfully');
-    } catch (err) {
-        res.status(500).send('Something went wrong.');
-        throw err;
+  try {
+    const {id} = req.params;
+    await Client.reactivateClient(id);
+    
+    return res.status(200).send({message: 'User reactivated successfully'});
+  } catch (err) {
+    if (err instanceof EmptyException) {
+      return res.status(400).send(err)
     }
+    return res.status(500).send(err.message);
+  }
 }
 const getAllGroups = async function (req, res) {
   const {clientId} = req.params;

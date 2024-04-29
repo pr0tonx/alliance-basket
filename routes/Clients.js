@@ -10,12 +10,10 @@ const router = express.Router()
 router.post('/' , async (req, res) => clientController.createClient(req, res));
 router.get('/', authMiddleware.isAuth, async (req, res) => clientController.getClients(req, res));
 router.get('/:id', authMiddleware.isAuth, async (req, res) => clientController.getClientById(req, res));
-router.post('/search', async (req, res) => clientController.search(req, res))
-
-// FIX: https://trello.com/c/nG8WJd64/15-fix-updateusers-try-to-update-everything
 router.put('/:id', authMiddleware.isAuth, async (req, res) => clientController.updateClient(req, res));
 router.delete('/:id', authMiddleware.isAuth, async (req, res) => clientController.deleteClient(req, res));
 router.patch('/:id', authMiddleware.isAuth, async (req, res) => clientController.reactivateClient(req, res));
+router.post('/search', async (req, res) => clientController.search(req, res))
 
 
 

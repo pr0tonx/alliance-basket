@@ -11,8 +11,9 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 class Client extends Model {
   static async create (values, options) {
       await this.validatePayload(values)
+      values.password = Buffer.from(`${values.email}:${process.env.SECRET_TOKEN}:${values.password}`).toString('base64');
 
-      return super.create(values, options)
+      return await super.create(values, options)
   }
 
   static async validatePayload(values) {
@@ -23,8 +24,14 @@ class Client extends Model {
     if (!('email' in values) || values.email.trim() === '') {
       throw new RequiredFieldException("email") 
     }
-    
-    await this.validateEmail(values.email)
+    try {
+      await this.validateEmail(values.email)
+
+    } catch(err) {
+      if (!(err instanceof EmptyException)){
+        throw err
+      }
+    }
 
     if (!('password' in values) || values.password.trim() === '') {
       throw new RequiredFieldException("password") 
@@ -37,13 +44,13 @@ class Client extends Model {
       throw new InvalidFieldException(email) 
     }
     if (await this.findOne({ where : { email: email}})) {
-      throw new UserExistsException(email)
+        throw new UserExistsException(email)
     }
   }
 
   static async findOne(values) {
+
     let client = await super.findOne(values)
-    console.log(client)
     if (client === null) {
       throw new EmptyException('Client not found')
     } 
@@ -61,6 +68,39 @@ class Client extends Model {
     client.status = 0
 
     return await client.save()
+  }
+
+  static async reactivateClient(id) {
+    let client = await this.findOne({where : {
+      id: id,
+      status: 0,
+      type: 1
+      }
+    })
+    client.status = 1
+
+    return await client.save()
+  }
+
+  static async updateClient(id, values){
+    let client = await this.findOne({where : {
+      id: id,
+      status: 1,
+      type: 1
+      }
+    })
+
+    let {email, password} = values 
+    if (email != null) {
+      throw new InvalidFieldException(email)
+    }
+
+    if (password != null) {
+      values.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
+    }
+    client.set(values)
+
+    return await client.save() 
   }
 }
 
