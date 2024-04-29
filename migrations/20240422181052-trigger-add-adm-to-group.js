@@ -8,7 +8,7 @@ module.exports = {
     CREATE DEFINER= \`root\`@\`localhost\` TRIGGER \`Groups_AFTER_INSERT\` AFTER INSERT ON \`Groups\` FOR EACH ROW BEGIN
     SET @id_group =  NEW.id;
     SET @id_admin =  NEW.admin_id;
-    INSERT INTO tb_members (id_group, id_client) VALUES (@id_group, @id_admin);
+    INSERT INTO Members (id_group, id_client) VALUES (@id_group, @id_admin);
     END`)
   },
 

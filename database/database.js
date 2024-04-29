@@ -21,79 +21,15 @@ function DBX() {
 
 /** LOGIN **/
 async function signin(email, password) {
-    const query = `SELECT * FROM TB_clients WHERE (email, password) VALUES (?, ?)`;
+    const query = `SELECT * FROM Clients WHERE (email, password) VALUES (?, ?)`;
     const values = [email, password];
 
     return await pool.query(query, values) || false;
 }
 
-/** CLIENTS **/
-async function createClient(name, phoneNumber, email, password) {
-    const query = `INSERT INTO TB_clients (name, phone_number, email, password) VALUES (?, ?, ?, ?)`;
-    const values = [name, phoneNumber, email, password];
-
-    const [rows] = await pool.query(query, values);
-
-    return rows;
-}
-
-async function getClients() {
-    const query = `SELECT * FROM TB_clients`;
-
-    const [rows] = await pool.query(query);
-
-    return rows;
-}
-
-async function getClientByEmailAndPhone(email, phoneNumber) {
-    const query = `SELECT * from TB_clients WHERE email=? OR phone_number=?`;
-    const values = [email, phoneNumber];
-
-    const [rows] = await pool.query(query, values);
-
-    return rows;
-}
-
-async function getClientByEmail(email) {
-    const query = `SELECT * FROM TB_clients WHERE email=?`;
-    const values = [email];
-
-    const [rows] = await pool.query(query, values);
-
-    return rows;
-}
-
-async function updateClient(id, name, phoneNumber, email, password) {
-    const query = `UPDATE TB_clients SET name=?, phone_number=?, email=?, password=? WHERE id_client=${id}`;
-    const values = [name, phoneNumber, email, password];
-
-    const [rows] = await pool.query(query, values);
-
-    return rows;
-}
-
-
-async function deleteClient(idClient) {
-    const query = `UPDATE TB_clients SET deleted_at=NOW() WHERE id_client=?`;
-    const values = [idClient];
-
-    const [rows] = await pool.query(query, values);
-
-    return rows;
-}
-
-// TODO tá errado
-async function reactivateClient(id) {
-    const query = `UPDATE TB_clients SET deleted_at = NULL WHERE id_client = ${id}`;
-
-    const [rows] = await pool.query(query);
-
-    return rows;
-}
-
 /** GROUPS **/
 async function createGroup(groupName, idClient, adminOnlyExpenses) {
-    const query = `INSERT INTO TB_groups (group_name, id_admin, admin_only_expenses) VALUES (?, ?, ?)`;
+    const query = `INSERT INTO Groups (group_name, id_admin, admin_only_expenses) VALUES (?, ?, ?)`;
     const values = [groupName, idClient, adminOnlyExpenses];
 
     const [rows] = await pool.query(query, values);
@@ -102,24 +38,15 @@ async function createGroup(groupName, idClient, adminOnlyExpenses) {
 }
 
 async function getAllGroups() {
-    const query = `SELECT * FROM TB_groups`;
+    const query = `SELECT * FROM Groups`;
 
     const [rows] = await pool.query(query);
 
     return rows;
 }
 
-// async function getGroupsByClient(idClient) {
-//     const query = `SELECT * FROM TB_groups WHERE id_admin=?`;
-//     const values = [idClient];
-//
-//     const [rows] = await pool.query(query, values);
-//
-//     return rows;
-// }
-
 async function editGroup(idGroup, groupName, adminOnlyExpenses) {
-    const query = `UPDATE TB_groups SET group_name=?, admin_only_expenses=? WHERE id_group=?`;
+    const query = `UPDATE Groups SET group_name=?, admin_only_expenses=? WHERE id_group=?`;
     const values = [groupName, idGroup, adminOnlyExpenses];
 
     const [rows] = await pool.query(query, values);
@@ -128,7 +55,7 @@ async function editGroup(idGroup, groupName, adminOnlyExpenses) {
 }
 
 async function deleteGroup(idGroup) {
-    const query = `DELETE FROM TB_groups WHERE id_group=?`;
+    const query = `DELETE FROM Groups WHERE id_group=?`;
     const values = [idGroup];
 
     const [rows] = await pool.query(query, values);
@@ -138,7 +65,7 @@ async function deleteGroup(idGroup) {
 
 /** MEMBERS **/
 async function addMemberToGroup(idGroup, member) {
-    const query = `INSERT INTO TB_MEMBERS (id_group, id_client) VALUES(?, ?)`;
+    const query = `INSERT INTO Mermbers (id_group, id_client) VALUES(?, ?)`;
     const values = [idGroup, member];
 
     const [rows] = await pool.query(query, values);
@@ -148,14 +75,6 @@ async function addMemberToGroup(idGroup, member) {
 
 module.exports = {
     signin,
-
-    createClient,
-    getClients,
-    getClientByEmailAndPhone,
-    getClientByEmail,
-    updateClient,
-    deleteClient,
-    reactivateClient,
 
     DBX,
 

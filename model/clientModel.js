@@ -5,8 +5,6 @@ async function getClientGroups (id) {
 }
 
 module.exports = {
-  getClientById,
-  search,
   getClientGroups,
 }
 

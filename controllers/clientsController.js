@@ -5,7 +5,6 @@ const RequiredFieldException = require('../error/RequiredFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const Client = require('../models/Client');
 const { createToken } = require('./authController');
-const { Sequelize } = require('sequelize');
 
 const createClient = async function (req, res) {
   try {

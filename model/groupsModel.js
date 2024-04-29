@@ -12,7 +12,7 @@ class Group {
 }
 
 async function getGroupByid(id) {
-    const sqlQuery = `SELECT * FROM TB_groups WHERE id_group = ${id}`;
+    const sqlQuery = `SELECT * FROM Groups WHERE id_group = ${id}`;
 
     const group = await db.DBX().query(sqlQuery);
 
@@ -28,7 +28,7 @@ function isValidAdmin(group, adminId){
 }
 
 async function getAllGroupsIdsFromClient(clientId) {
-    const query = `SELECT id_group FROM TB_members WHERE id_client = ?`
+    const query = `SELECT id_group FROM Members WHERE id_client = ?`
 
     let [groupsIds] = await db.DBX().query(query, [clientId])
 

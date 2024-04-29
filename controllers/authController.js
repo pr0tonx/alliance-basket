@@ -83,7 +83,6 @@ const createToken = (id) => {
 }
 
 module.exports = {
-    signup,
     login,
     createToken
 }
