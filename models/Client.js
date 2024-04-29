@@ -16,7 +16,7 @@ class Client extends Model {
       return await super.create(values, options)
   }
 
-  static async validatePayload(values) {
+  static async validatePayload (values) {
     if (!('name' in values) || values.name.trim() === '') {
       throw new RequiredFieldException("name") 
     }
@@ -38,7 +38,7 @@ class Client extends Model {
     }
   }
 
-  static async validateEmail(email) {
+  static async validateEmail (email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!re.test(email)) {
       throw new InvalidFieldException(email) 
@@ -48,7 +48,7 @@ class Client extends Model {
     }
   }
 
-  static async findOne(values) {
+  static async findOne (values) {
 
     let client = await super.findOne(values)
     if (client === null) {
@@ -58,7 +58,7 @@ class Client extends Model {
     return client
   }
 
-  static async softDeleteClient(id) {
+  static async softDeleteClient (id) {
     let client = await this.findOne({where : {
       id: id,
       status: 1,
@@ -70,7 +70,7 @@ class Client extends Model {
     return await client.save()
   }
 
-  static async reactivateClient(id) {
+  static async reactivateClient (id) {
     let client = await this.findOne({where : {
       id: id,
       status: 0,
@@ -82,7 +82,7 @@ class Client extends Model {
     return await client.save()
   }
 
-  static async updateClient(id, values){
+  static async updateClient (id, values) {
     let client = await this.findOne({where : {
       id: id,
       status: 1,
@@ -101,6 +101,13 @@ class Client extends Model {
     client.set(values)
 
     return await client.save() 
+  }
+
+  static async search (values) {
+    return await this.findAll({
+      where: values, 
+      rejectOnEmpty: true,
+    })
   }
 }
 

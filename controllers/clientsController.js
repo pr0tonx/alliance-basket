@@ -5,6 +5,7 @@ const RequiredFieldException = require('../error/RequiredFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const Client = require('../models/Client');
 const { createToken } = require('./authController');
+const { Sequelize } = require('sequelize');
 
 const createClient = async function (req, res) {
   try {
@@ -30,7 +31,7 @@ const createClient = async function (req, res) {
     }
 
     return res.status(500).send(error);
-}
+  }
 }
 
 const getClients = async function (req, res) {
@@ -48,16 +49,15 @@ const getClients = async function (req, res) {
 }
 
 const search = async function (req, res) {
-    try {
-        let users = await clientModel.search(req.body)
-        return res.status(200).send(users)
-    } catch (err) {
-        
-    if (err instanceof EmptyException) {
-        return res.status(204).send(err);
+  try {
+    let users = await Client.search(req.body)
+    return res.status(200).send({users: users})
+  } catch (err) {
+    if (err.name === 'SequelizeEmptyResultError') {
+        return res.status(204).send();
       }
-      return res.status(500).send(err);
-    }
+    return res.status(500).send(err);
+  }
 }
 
 const getClientById = async function (req, res) {
@@ -109,7 +109,6 @@ const deleteClient = async function (req, res) {
   }
 }
 
-// FIXME sql error when trying to add a TIMESTAMP
 const reactivateClient = async function (req, res) {
   try {
     const {id} = req.params;

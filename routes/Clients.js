@@ -13,14 +13,7 @@ router.get('/:id', authMiddleware.isAuth, async (req, res) => clientController.g
 router.put('/:id', authMiddleware.isAuth, async (req, res) => clientController.updateClient(req, res));
 router.delete('/:id', authMiddleware.isAuth, async (req, res) => clientController.deleteClient(req, res));
 router.patch('/:id', authMiddleware.isAuth, async (req, res) => clientController.reactivateClient(req, res));
-router.post('/search', async (req, res) => clientController.search(req, res))
-
-
-
-
-
-
-
+router.post('/search', authMiddleware.isAuth, async (req, res) => clientController.search(req, res))
 
 /** GROUPS **/
 // FIX: https://trello.com/c/fVvydRA0/25-move-groups-endpoint-to-groups-entity-insted-of-clients
