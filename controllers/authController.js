@@ -142,5 +142,6 @@ const createToken = (id) => {
 
 module.exports = {
     signup,
-    login
+    login,
+    createToken
 }

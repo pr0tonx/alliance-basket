@@ -14,6 +14,7 @@ services:
       MYSQL_USER: root 
       PASSWORD: root 
       MYSQL_DATABASE: alliance_basket 
+      SECRET_TOKEN: VERY_SCRET_TOKEN
     networks:
       - alliance-basket
 

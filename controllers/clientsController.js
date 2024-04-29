@@ -1,30 +1,36 @@
-const db = require('../database/database');
 const clientModel =  require('../model/clientModel')
 const EmptyException = require('../error/EmptyException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const RequiredFieldException = require('../error/RequiredFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const Client = require('../models/Client');
+const { createToken } = require('./authController');
 
 const createClient = async function (req, res) {
-    try {
-      let user = await Client.create(req.body)
-      return res.status(200).send(user)
-    } catch (error) {
-      if (error instanceof InvalidFieldException) {
-        return res.status(400).send(error);
-      }
+  try {
+    let user = await Client.create(req.body)
+    let token = createToken(user.email)
+    let response = {
+      user: user,
+      token: token
+    }
 
-      if (error instanceof RequiredFieldException) {
-        return res.status(400).send(error);
-      }
+    return res.status(200).send(response)
+  } catch (error) {
+    if (error instanceof InvalidFieldException) {
+      return res.status(400).send(error);
+    }
 
-      if (error instanceof UserExistsException) {
-        return res.status(400).send(error);
-      }
+    if (error instanceof RequiredFieldException) {
+      return res.status(400).send(error);
+    }
 
-      return res.status(500).send(error);
-  }
+    if (error instanceof UserExistsException) {
+      return res.status(400).send(error);
+    }
+
+    return res.status(500).send(error);
+}
 }
 
 const getClients = async function (req, res) {
