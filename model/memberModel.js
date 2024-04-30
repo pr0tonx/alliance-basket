@@ -25,7 +25,7 @@ async function addMemberToGroup(errors, group, members_id) {
             return;
         }
 
-        let query = `INSERT INTO TB_members (id_group, id_client) VALUES(?, ?)`;
+        let query = `INSERT INTO Members (id_group, id_client) VALUES(?, ?)`;
         let values = [group.id, member_id];
         
         await db.DBX().query(query, values);
@@ -36,7 +36,7 @@ async function addMemberToGroup(errors, group, members_id) {
 
 
 async function isMemberAlreadyInGroup(group, member_id) {
-    let query = await db.DBX().query(`SELECT * FROM TB_members where id_group = ${group.id} and id_members = ${member_id}`)
+    let query = await db.DBX().query(`SELECT * FROM Members where id_group = ${group.id} and id_members = ${member_id}`)
 
     return query > 1
 }
@@ -72,7 +72,7 @@ async function listAllMembers (groupId) {
 }
 
 async function getGroupMembersId(group_id) {
-  let query = "SELECT id_members FROM TB_members where id_group = ?"
+  let query = "SELECT id_members FROM Members where id_group = ?"
   let values = [group_id]
   let [membersId] = await db.DBX().query(query, values)
  

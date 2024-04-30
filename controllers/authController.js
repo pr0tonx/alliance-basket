@@ -1,64 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 const db = require('../database/database');
-const clientsController = require('./clientsController');
-
-const signup = async function (req, res) {
-    const {name, email, password} = req.body;
-
-    if (!name || !email || !password) {
-        res.status(400).send({
-            error: 'Bad Request',
-            message: 'No empty field allowed.',
-            code: 400
-        });
-        return;
-    }
-
-    if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
-        res.status(400).send({
-            error: 'Bad Request',
-            message: 'Email format not allowed.',
-            status: 400
-        });
-        return;
-    }
-
-    if (!password.match(/^(?=.*[A-Z])(?=.*\d).{6,}$/)) {
-        res.status(400).send({
-            error: 'Bad Request',
-            message: 'The password must contains at least six characters, which at least one is a capital letter and a number.',
-            code: 400
-        });
-        return;
-    }
-
-    try {
-        const client = await db.getClientByEmail(email);
-
-        if (client.length >= 1) {
-            res.status(422).send({
-                error: 'Unprocessable Entity',
-                message: 'Email already registered.',
-                code: 422
-            });
-            return;
-        }
-
-        req.body.isFirstLogin = true;
-        req.body.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
-
-        await clientsController.createClient(req, res);
-
-        await login(req, res);
-    } catch (err) {
-        res.status(500).send({
-            error: 'Internal server error',
-            message: 'Something went wrong while trying to register a new client',
-            status: 500
-        });
-    }
-}
 
 const login = async function (req, res) {
     const {email, password} = req.body;
@@ -141,6 +83,6 @@ const createToken = (id) => {
 }
 
 module.exports = {
-    signup,
-    login
+    login,
+    createToken
 }

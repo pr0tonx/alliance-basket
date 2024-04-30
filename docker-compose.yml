@@ -9,13 +9,12 @@ services:
     volumes:
      - ./:/usr/src/app
      - /usr/src/app/node_modules
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     environment:
       MYSQL_HOST: db 
       MYSQL_USER: root 
       PASSWORD: root 
       MYSQL_DATABASE: alliance_basket 
+      SECRET_TOKEN: VERY_SCRET_TOKEN
     networks:
       - alliance-basket
 
