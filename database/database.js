@@ -65,7 +65,7 @@ async function deleteGroup(idGroup) {
 
 /** MEMBERS **/
 async function addMemberToGroup(idGroup, member) {
-    const query = `INSERT INTO Mermbers (id_group, id_client) VALUES(?, ?)`;
+    const query = `INSERT INTO Members (id_group, id_client) VALUES(?, ?)`;
     const values = [idGroup, member];
 
     const [rows] = await pool.query(query, values);

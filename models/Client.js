@@ -49,8 +49,7 @@ class Client extends Model {
   }
 
   static async findOne (values) {
-
-    let client = await super.findOne(values)
+    const client = await super.findOne(values)
     if (client === null) {
       throw new EmptyException('Client not found')
     } 
@@ -71,7 +70,7 @@ class Client extends Model {
   }
 
   static async reactivateClient (id) {
-    let client = await this.findOne({where : {
+    const client = await this.findOne({where : {
       id: id,
       status: 0,
       type: 1
@@ -83,14 +82,14 @@ class Client extends Model {
   }
 
   static async updateClient (id, values) {
-    let client = await this.findOne({where : {
+    const client = await this.findOne({where : {
       id: id,
       status: 1,
       type: 1
       }
     })
 
-    let {email, password} = values 
+    const {email, password} = values
     if (email != null) {
       throw new InvalidFieldException(email)
     }
