@@ -4,18 +4,12 @@ const InvalidFieldException = require('../error/InvalidFieldException');
 const RequiredFieldException = require('../error/RequiredFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const Client = require('../models/Client');
-const { createToken } = require('./authController');
 
 const createClient = async function (req, res) {
   try {
-    let user = await Client.create(req.body)
-    let token = createToken(user.email)
-    let response = {
-      user: user,
-      token: token
-    }
+    const user = await Client.create(req.body)
 
-    return res.status(200).send(response)
+    return res.status(200).send(user)
   } catch (error) {
     if (error instanceof InvalidFieldException) {
       return res.status(400).send(error);
@@ -30,6 +24,22 @@ const createClient = async function (req, res) {
     }
 
     return res.status(500).send(error);
+  }
+}
+
+const login = async function (req, res) {
+  try{
+    const user = await Client.login(req.body)
+
+    return res.status(200).send(user)
+  } catch (err) {
+    if (err instanceof EmptyException) {
+      return res.status(400).send(err)
+    }
+    if (err instanceof InvalidFieldException) {
+      return res.status(400).send(err)
+    }
+    return res.status(500).send(err);
   }
 }
 
@@ -140,12 +150,13 @@ const getAllGroups = async function (req, res) {
 }
 
 module.exports = {
-    getClients,
-    createClient,
-    getClientById,
-    updateClient,
-    deleteClient,
-    reactivateClient,
-    search,
-    getAllGroups,
+  getClients,
+  createClient,
+  getClientById,
+  updateClient,
+  deleteClient,
+  reactivateClient,
+  search,
+  getAllGroups,
+  login
 }
