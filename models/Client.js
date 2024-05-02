@@ -6,14 +6,35 @@ const RequiredFieldException = require('../error/RequiredFieldException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const EmptyException = require('../error/EmptyException.js');
+const Utils = require('../common/Utils.js') 
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 class Client extends Model {
   static async create (values, options) {
-      await this.validatePayload(values)
-      values.password = Buffer.from(`${values.email}:${process.env.SECRET_TOKEN}:${values.password}`).toString('base64');
+    await this.validatePayload(values)
+    values.password = Utils.hashPassword(values.email, values.password)
 
-      return await super.create(values, options)
+    const user = await super.create(values, options)
+    return {
+      user: user,
+      token : Utils.createToken(user.email)
+    }
+  }
+  
+  static async login(values) {
+    let {email, password} = values
+    const user = await this.findOne({where: { email: email, status: 1, type: 1 }})
+     
+    password = Utils.hashPassword(values.email, values.password)
+
+    if(password != user.password) {
+      throw new InvalidFieldException("password")
+    }
+
+    return {
+      user: user,
+      token: Utils.createToken(user.email)
+    }
   }
 
   static async validatePayload (values) {
