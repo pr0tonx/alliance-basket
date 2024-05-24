@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "root",
-    "database": "alliance_basket",
-    "host": "db",
+    "password": "rioteumudei1",
+    "database": "alliance",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   }
 }
