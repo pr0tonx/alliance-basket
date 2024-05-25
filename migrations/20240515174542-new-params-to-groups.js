@@ -19,7 +19,7 @@ module.exports = {
           'Groups',
           'type',
           {
-            type: Sequelize.DataTypes.STRING, // notepad 2 TODO check if it's appropriate to be an ENUM instead
+            type: Sequelize.DataTypes.STRING,
             allowNull: false
           },
           {transaction: t}
