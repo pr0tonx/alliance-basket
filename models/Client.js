@@ -125,7 +125,7 @@ class Client extends Model {
   }
   static async search(values) {
     const whereClause = Object.keys(values).reduce((acc, field) => {
-      acc[field] = { [Op.like]: `%${values[field]}%` };
+      acc[field] = { [Op.like]: `${values[field]}%` };
       return acc;
     }, {});
 
