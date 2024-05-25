@@ -4,44 +4,21 @@ const InvalidFieldException = require('../error/InvalidFieldException');
 const RequiredFieldException = require('../error/RequiredFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const Client = require('../models/Client');
+const expense = require('../models/expense');
 
-const createClient = async function (req, res) {
+const createExpense = async function (req, res) {
   try {
-    const user = await Client.create(req.body)
+    const { id_client, id_group } = req.params;
 
-    return res.status(200).send(user)
+    
   } catch (error) {
-    if (error instanceof InvalidFieldException) {
-      return res.status(400).send(error);
-    }
-
-    if (error instanceof RequiredFieldException) {
-      return res.status(400).send(error);
-    }
-
-    if (error instanceof UserExistsException) {
-      return res.status(400).send(error);
-    }
-
-    return res.status(500).send(error);
+    
   }
+
+
 }
 
-const login = async function (req, res) {
-  try{
-    const user = await Client.login(req.body)
 
-    return res.status(200).send(user)
-  } catch (err) {
-    if (err instanceof EmptyException) {
-      return res.status(400).send(err)
-    }
-    if (err instanceof InvalidFieldException) {
-      return res.status(400).send(err)
-    }
-    return res.status(500).send(err);
-  }
-}
 
 const getClients = async function (req, res) {
   try {
@@ -118,45 +95,13 @@ const deleteClient = async function (req, res) {
   }
 }
 
-const reactivateClient = async function (req, res) {
-  try {
-    const {id} = req.params;
-    await Client.reactivateClient(id);
-    
-    return res.status(200).send({message: 'User reactivated successfully'});
-  } catch (err) {
-    if (err instanceof EmptyException) {
-      return res.status(400).send(err)
-    }
-    return res.status(500).send(err.message);
-  }
-}
-const getAllGroups = async function (req, res) {
-  const {clientId} = req.params;
 
-  try {
-
-    let groups = await clientModel.getClientGroups(clientId);
-    return res.status(200).send(groups)
-
-  } catch (err) {
-
-    if (err instanceof EmptyException) {
-      return res.status(204).send(err.message);
-    }
-
-    return res.status(500).send(err.message)
-  }
-}
 
 module.exports = {
   getClients,
-  createClient,
+  createExpense,
   getClientById,
   updateClient,
   deleteClient,
-  reactivateClient,
   search,
-  getAllGroups,
-  login
 }

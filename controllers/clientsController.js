@@ -34,9 +34,11 @@ const login = async function (req, res) {
     return res.status(200).send(user)
   } catch (err) {
     if (err instanceof EmptyException) {
+      console.log(err);
       return res.status(400).send(err)
     }
     if (err instanceof InvalidFieldException) {
+      console.log(err);
       return res.status(400).send(err)
     }
     return res.status(500).send(err);

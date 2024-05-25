@@ -10,6 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       value: {
@@ -18,11 +19,24 @@ module.exports = {
       },
       id_group: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model:{
+            tablename:'Group',
+            schema:'schema'
+
+          },
+        }
       },
       id_client: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:{
+            tablename:'Client',
+            field:'id'
+          }
+        }
       },
       createdAt: {
         allowNull: false,

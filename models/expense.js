@@ -1,14 +1,20 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
+  const sequelize = new Sequelize(config.database, config.usernan, config.password, config);
   class Expense extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+      static async create (req){
+        const {name, value }= req.body
+        const { id_client, id_group } = req.params;
+
+        
+        
+        
+      }
+
+
+
+
     static associate(models) {
       // define association here
     }
