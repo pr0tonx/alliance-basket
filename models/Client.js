@@ -113,7 +113,7 @@ class Client extends Model {
 
     const {email, password} = values
     if (email != null) {
-      throw new InvalidFieldException(email)
+      this.validateEmail(email)
     }
 
     if (password != null) {
