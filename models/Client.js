@@ -6,7 +6,8 @@ const RequiredFieldException = require('../error/RequiredFieldException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const EmptyException = require('../error/EmptyException.js');
-const Utils = require('../common/Utils.js') 
+const Utils = require('../common/Utils.js')
+const { Op } = require('sequelize');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 class Client extends Model {
@@ -122,12 +123,16 @@ class Client extends Model {
 
     return await client.save() 
   }
+  static async search(values) {
+    const whereClause = Object.keys(values).reduce((acc, field) => {
+      acc[field] = { [Op.like]: `${values[field]}%` };
+      return acc;
+    }, {});
 
-  static async search (values) {
     return await this.findAll({
-      where: values, 
+      where: whereClause,
       rejectOnEmpty: true,
-    })
+    });
   }
 }
 
