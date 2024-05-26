@@ -6,7 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       static async create (req){
         const {name, value }= req.body
         const { id_client, id_group } = req.params;
+        new_json = {
+          id_client:id_client,
+          id_group:id_group
 
+        }
+          Object.assign(new_json,req.body);
         
         
         
