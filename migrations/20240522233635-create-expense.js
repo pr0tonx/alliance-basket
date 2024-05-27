@@ -20,23 +20,24 @@ module.exports = {
       id_group: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: {
-          model:{
-            tablename:'Group',
-            schema:'schema'
-
-          },
-        }
+ references: {
+                model: 'Groups', // Nome da tabela referenciada
+                key: 'id'       // Chave primária da tabela referenciada
+            },
+        
+     
+        tableName: 'Expenses'
+        
       },
       id_client: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references:{
-          model:{
-            tablename:'Client',
-            field:'id'
-          }
-        }
+        references: {
+          model: 'Clients', // Nome da tabela referenciada
+          key: 'id'       // Chave primária da tabela referenciada
+      },
+        tableName: 'Expenses'
+  
       },
       createdAt: {
         allowNull: false,

@@ -1,107 +1,77 @@
-const clientModel =  require('../model/clientModel')
+
 const EmptyException = require('../error/EmptyException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const RequiredFieldException = require('../error/RequiredFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const Client = require('../models/Client');
-const expense = require('../models/expense');
+const Expense = require('../models/expense');
 
-const createExpense = async function (req, res) {
+const createExpense = async (req, res) => {
   try {
-    const { id_client, id_group } = req.params;
-
-    
+    const expense = await Expense.createExpense(req);
+    res.status(201).json(expense);
   } catch (error) {
-    
+    res.status(400).json({ error: error.message });
   }
+};
 
 
-}
-
-
-
-const getClients = async function (req, res) {
+const getAllExpenses = async (req, res) => {
   try {
-    const clients = await Client.findAll({
-      where : {
-        status: 1,
-        type: 1,
-      }
-    })
-    res.status(200).send(clients);
-  } catch (err) {
-    res.status(500).send(err);
+    const expenses = await Expense.findAll();
+    res.status(200).json(expenses);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-}
+};
 
-const search = async function (req, res) {
-  try {
-    let users = await Client.search(req.body)
-    return res.status(200).send({users: users})
-  } catch (err) {
-    if (err.name === 'SequelizeEmptyResultError') {
-        return res.status(204).send();
-      }
-    return res.status(500).send(err);
-  }
-}
 
-const getClientById = async function (req, res) {
+
+const getExpenseById = async (req, res) => {
   try {
-    const {id} = req.params;
-    
-    const client = await Client.findOne({where : {
-      id: id,
-      status: 1,
-      type: 1
-      }
-    })
-    return res.status(200).send(client);
-  } catch (err) {
-    if (err instanceof EmptyException){
-      return res.status(400).send(err)
+    const expense = await Expense.findByPk(req.params.id);
+    if (!expense) {
+      return res.status(404).json({ error: 'Expense not found' });
     }
-    return res.status(500).send(err);
-
+    res.status(200).json(expense);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-}
+};
 
-const updateClient = async function (req, res) {
+const updateExpense = async (req, res) => {
   try {
-    const {id} = req.params;
-    let client = await Client.updateClient(id, req.body);
-
-    return res.status(200).send(client);
-  } catch (err) {
-    if (err instanceof EmptyException) {
-      return res.status(400).send(err)
+    const expense = await Expense.findByPk(req.params.id);
+    if (!expense) {
+      return res.status(404).json({ error: 'Expense not found' });
     }
-    if (err instanceof InvalidFieldException) {
-      return res.status(400).send(err)
-    }
-    return res.status(500).send(err);
+    await expense.update(req.body);
+    res.status(200).json(expense);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-}
+};
 
 // TODO when deleting a user, the group admin must be transfered to another user if there is one
-const deleteClient = async function (req, res) {
+
+const deleteExpense = async (req, res) => {
   try {
-    const {id} = req.params;
-    await Client.softDeleteClient(id) 
-
-    return res.status(200).send({message: 'User deleted successfully.'});
-  } catch (err) {
-    return res.status(500).send(err.message);
+    const expense = await Expense.findByPk(req.params.id);
+    if (!expense) {
+      return res.status(404).json({ error: 'Expense not found' });
+    }
+    await expense.destroy();
+    res.status(204).json();
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-}
-
+};
 
 
 module.exports = {
-  getClients,
   createExpense,
-  getClientById,
-  updateClient,
-  deleteClient,
-  search,
-}
+  getAllExpenses,
+  getExpenseById,
+  updateExpense,
+  deleteExpense
+};

@@ -1,14 +1,23 @@
 'use strict';
 const { Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const sequelize = new Sequelize(config.database, config.usernan, config.password, config);
+  const Sequelize = new Sequelize(config.database, config.usernan, config.password, config);
   class Expense extends Model {
       static async create (req){
         const {name, value }= req.body
         const { id_client, id_group } = req.params;
 
-        
-        
+        new_json = {
+          id_client : id_client,
+          id_group : id_group,
+
+        }
+
+        Object.assign(new_json,req.body)
+      
+        const expense = await Expense.create(new_json)
+
+        return expense
         
       }
 
@@ -29,4 +38,6 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Expense',
   });
   return Expense;
+
 };
+module.exports = Expense
