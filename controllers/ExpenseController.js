@@ -5,22 +5,28 @@ const RequiredFieldException = require('../error/RequiredFieldException');
 const UserExistsException = require('../error/UserExistsException');
 const Expense = require('../models/expense');
 
+
 const createExpenses = async (req, res) => {
   try {
-    const expense = await Expense.createExpenses(req);
-    res.status(201).json(expense);
+    
+    const expense = await Expense.create(req);
+    return res.status(201).json(expense);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
 
-const getAllExpenses = async (req, res) => {
+const getAllByGroup = async (req, res) => {
+  const { id_group } = req.params
   try {
-    const expenses = await Expense.findAll();
-    res.status(200).json(expenses);
+    const expenses = await Expense.getAllByGroup(id_group);
+    return res.status(200).json(expenses);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === 'SequelizeEmptyResultError'){
+      return res.status(204).send();
+    }
+    return res.status(500).send();
   }
 };
 
@@ -32,26 +38,24 @@ const getExpenseById = async (req, res) => {
     if (!expense) {
       return res.status(404).json({ error: 'Expense not found' });
     }
-    res.status(200).json(expense);
+    return res.status(200).json(expense);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
 const updateExpense = async (req, res) => {
   try {
-    const expense = await Expense.findByPk(req.params.id);
+    const expense = await Expense.update(req);
     if (!expense) {
       return res.status(404).json({ error: 'Expense not found' });
     }
     await expense.update(req.body);
-    res.status(200).json(expense);
+    return res.status(200).json(expense);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
-
-// TODO when deleting a user, the group admin must be transfered to another user if there is one
 
 const deleteExpense = async (req, res) => {
   try {
@@ -60,16 +64,16 @@ const deleteExpense = async (req, res) => {
       return res.status(404).json({ error: 'Expense not found' });
     }
     await expense.destroy();
-    res.status(204).json();
+    return res.status(204).json();
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
 
 module.exports = {
   createExpenses,
-  getAllExpenses,
+  getAllByGroup,
   getExpenseById,
   updateExpense,
   deleteExpense

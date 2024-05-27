@@ -1,22 +1,27 @@
-'use strict';
-const { Model} = require('sequelize');
+
+const { Sequelize, DataTypes, Model } = require('sequelize');
+
 const process = require('process');
+const InvalidFieldException = require('../error/InvalidFieldException');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
-module.exports = (sequelize, DataTypes) => {
-  const Sequelize = new Sequelize(config.database, config.usernan, config.password, config);
+
+
+const sequelize = new Sequelize(config.database, config.username, config.password, config);
   class Expense extends Model {
-      static async create (req){
+      static async create(req){    
         const {name, value }= req.body
         const { id_client, id_group } = req.params;
-        console.log(name,value,req.params)
+        if(value <= 0){
+          throw new InvalidFieldException(value)
+        } 
         const newJson = {
           id_client: id_client,
           id_group: id_group,
           name: name,
           value: value
         };
-
+        
         const expense = await super.create(newJson);
       
        
@@ -25,6 +30,31 @@ module.exports = (sequelize, DataTypes) => {
         
       }
        static associate(models) {
+      }
+
+
+      static async getAllByGroup(id){
+        return await this.findAll({
+          where:{
+            id_group : id
+          } , 
+          rejectOnEmpty: true,
+        })
+      };
+
+      static async update(req){
+        const { id } = req.params
+        const expense = await this.findByPk(id,{rejectOnEmpty:true})
+        const { value } = req.body
+        if(value <= 0){
+          throw new InvalidFieldException(value)
+        } 
+        expense.set(req.body)
+        return await expense.save()
+      };
+
+      static async delete(){
+
       }
   }
   Expense.init({
@@ -36,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Expense',
   });
-  return Expense;
 
-};
-module.exports = Expense
+
+module.exports = Expense;
+
