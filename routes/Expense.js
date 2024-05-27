@@ -1,6 +1,5 @@
 const express = require('express');
 
-
 const authMiddleware = require('../middleware/authMiddleware');
 const ExpenseController = require('../controllers/ExpenseController');
 
@@ -9,7 +8,7 @@ const ExpenseController = require('../controllers/ExpenseController');
 const router = express.Router()
 
 //Rotas para CRUDE despesas
-router.post('/expenses/client/:id_client/group/:id_group',authMiddleware.isAuth, async (req, res) => ExpenseController.createExpense(req, res));
+router.post('/expenses/client/:id_client/group/:id_group',authMiddleware.isAuth, async (req, res) => ExpenseController.createExpenses(req, res));
 router.get('/expenses',authMiddleware.isAuth, async (req, res) => ExpenseController.getAllExpenses(req, res));
 router.get('/expenses/:id',authMiddleware.isAuth, async (req, res) => ExpenseController.getExpenseById(req, res));
 router.put('/expenses/:id',authMiddleware.isAuth, async (req, res) => ExpenseController.updateExpense(req, res));

@@ -3,12 +3,11 @@ const EmptyException = require('../error/EmptyException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const RequiredFieldException = require('../error/RequiredFieldException');
 const UserExistsException = require('../error/UserExistsException');
-const Client = require('../models/Client');
 const Expense = require('../models/expense');
 
-const createExpense = async (req, res) => {
+const createExpenses = async (req, res) => {
   try {
-    const expense = await Expense.createExpense(req);
+    const expense = await Expense.createExpenses(req);
     res.status(201).json(expense);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -69,7 +68,7 @@ const deleteExpense = async (req, res) => {
 
 
 module.exports = {
-  createExpense,
+  createExpenses,
   getAllExpenses,
   getExpenseById,
   updateExpense,
