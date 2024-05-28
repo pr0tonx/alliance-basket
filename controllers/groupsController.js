@@ -5,7 +5,7 @@ const InvalidFieldException = require('../error/InvalidFieldException');
 const RequiredFieldException = require('../error/RequiredFieldException');
 const RequiredFieldLengthException = require('../error/InvalidFieldLengthException');
 
-const membersController = require('./MembersController');
+const membersController = require('./membersController');
 
 const createGroup = async function (req, res) {
   const adminId = Number(req.params.id);
