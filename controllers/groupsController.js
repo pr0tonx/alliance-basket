@@ -31,7 +31,8 @@ const getGroupById = async function (req, res) {
   const {idGroup} = req.params;
 
   try {
-    return await Group.findByPK(idGroup);
+    const group = await Group.findByPK(idGroup);
+    return res.status(200).send(group)
   } catch (err) {
     if (err instanceof EmptyException) {
       return res.status(400).send(err);
