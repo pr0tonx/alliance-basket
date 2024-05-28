@@ -6,6 +6,8 @@ const RequiredFieldException = require('../error/RequiredFieldException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const InvalidFieldLengthException = require('../error/InvalidFieldLengthException');
 const EmptyException = require('../error/EmptyException');
+const { Member } = require('./Member');
+const Client = require('./Client');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
@@ -82,6 +84,27 @@ class Group extends Model {
       }
     }
   }
+
+  static async getClientsfromGroups(id_group) {
+    const members = await Member.findAll({ where: { id_group: id_group } });
+
+    const clientPromises = members.map(async member => {
+        const client = await Client.findOne({
+          where: {
+            id: member.id_client,
+            status: 1,
+            type: 1
+          }
+        });
+        return client;
+
+    });
+
+    const clients = await Promise.all(clientPromises);
+
+    return clients;
+  }
+
 }
 
 Group.init({

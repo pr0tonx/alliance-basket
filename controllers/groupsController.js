@@ -100,7 +100,20 @@ const leaveGroup = async function (req, res) {
   }
 }
 
+const getClientsfromGroups = async function (req, res) {
+  const { id_group } = req.params
+  try {
+    var clients = await Group.getClientsfromGroups(id_group)
+
+    return res.status(200).send(clients)
+
+  } catch (err) {
+    return res.status(500).send("error")
+  }
+}
+
 module.exports = {
+  getClientsfromGroups,
   createGroup,
   getGroupById,
   getGroupsByClientId,
