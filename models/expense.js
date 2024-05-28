@@ -3,6 +3,7 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 
 const process = require('process');
 const InvalidFieldException = require('../error/InvalidFieldException');
+const EmptyException = require('../error/EmptyException');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 
@@ -43,17 +44,26 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
       };
 
       static async update(req){
-        const { id } = req.params
-        const expense = await this.findByPk(id,{rejectOnEmpty:true})
-        const { value } = req.body
+        const { id } = req.params;
+        const expense = await this.findByPk(id,{rejectOnEmpty:true});
+        const { value } = req.body;
         if(value <= 0){
-          throw new InvalidFieldException(value)
+          throw new InvalidFieldException(value);
         } 
-        expense.set(req.body)
-        return await expense.save()
+        expense.set(req.body);
+        return await expense.save();
       };
 
-      static async delete(){
+      static async delete(req){
+        const { id } = req.params;
+        const expense = await this.findByPk(id,{rejectOnEmpty:true});
+        if(!expense){
+        throw new EmptyException('Expense not found');
+        }
+        else{
+          expense.destroy();
+        }
+
 
       }
   }
