@@ -21,7 +21,6 @@ class Member extends Model {
 
       return member; // todo um error avisando que nao foi adicionado se já existir
     } catch (err) {
-      console.log(err);
       throw err; // TODO
     }
   }
@@ -30,10 +29,25 @@ class Member extends Model {
     const member = await super.findOne(values);
 
     if (!member) return null // TODO e arrumar o if no create quando arrumar aqui
-    return member
+    return member;
   }
 
-  static async removeMember(values) {
+  static async findAllGivenValue(value) {
+    await this.keysToSnakeCase(value);
+
+    try {
+      return await this.findAll({
+        where: value,
+        rejectOnEmpty: false,
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  static async deleteMember(values) {
+    await this.keysToSnakeCase(values);
+
     const member = await this.findOne({
       where: values
     });

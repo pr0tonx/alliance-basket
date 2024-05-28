@@ -5,7 +5,8 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-router.post('/groups', authMiddleware.isAuth, (req, res) => membersController.addMember(req, res));
+router.post('/clients/:id/groups', authMiddleware.isAuth, (req, res) => membersController.addMember(req, res));
+router.delete('/groups/:idGroup/clients/:idClient', authMiddleware.isAuth, (req, res) => membersController.removeMember(req, res));
 
 // router.get('/group/:id', (req, res) => membersController.listAllMembers(req, res));
 
