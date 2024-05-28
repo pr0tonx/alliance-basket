@@ -1,4 +1,4 @@
-const {Group} = require('../models/Group');
+const { Group } = require('../models/Group');
 
 const EmptyException = require('../error/EmptyException');
 const InvalidFieldException = require('../error/InvalidFieldException');
@@ -8,18 +8,18 @@ const RequiredFieldLengthException = require('../error/InvalidFieldLengthExcepti
 const membersController = require('./membersController');
 
 const createGroup = async function (req, res) {
-  const adminId = Number(req.params.id);
-  const {invites, ...groupValues} = req.body;
+  const adminId = Number(req.params.idClient);
+  const { invites, ...groupValues } = req.body;
 
   try {
-    const group = await Group.create({adminId, ...groupValues});
+    const group = await Group.create({ adminId, ...groupValues });
     req.body.idGroup = group.dataValues.id;
 
     if (req.body.invites.length > 0) {
       await membersController.addMember(req, res);
     }
 
-    res.status(200).send({group});
+    res.status(200).send({ group });
   } catch (err) {
     console.log(err);
     return res.status(500).send();
@@ -28,7 +28,7 @@ const createGroup = async function (req, res) {
 };
 
 const getGroupById = async function (req, res) {
-  const {id} = req.params;
+  const { id } = req.params;
 
   try {
     const group = await Group.findByPK(id);
@@ -43,7 +43,7 @@ const getGroupById = async function (req, res) {
 }
 
 const getGroupsByClientId = async function (req, res) {
-  const {idGroup} = req.params;
+  const { idGroup } = req.params;
 
   try {
     // findAllGroupsByClientId
