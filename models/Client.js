@@ -135,6 +135,13 @@ class Client extends Model {
       rejectOnEmpty: true,
     });
   }
+
+  static async searchEmail(values) {
+    return await this.findAll({
+      where: {email: values},
+      rejectOnEmpty: false,
+    });
+  }
 }
 
 Client.init(
