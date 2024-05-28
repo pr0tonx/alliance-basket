@@ -1,91 +1,122 @@
-const db = require('../database/database');
+const {Group} = require('../models/Group');
+
+const EmptyException = require('../error/EmptyException');
+const InvalidFieldException = require('../error/InvalidFieldException');
+const RequiredFieldException = require('../error/RequiredFieldException');
+const RequiredFieldLengthException = require('../error/InvalidFieldLengthException');
+const NotAllowedException = require('../error/NotAllowedException');
+
+const membersController = require('./membersController');
 
 const createGroup = async function (req, res) {
-    try {
-        const {idClient} = req.params;
-        const {groupName, adminOnlyExpenses} = req.body;
+  const adminId = Number(req.params.idClient);
+  const {invites, ...groupValues} = req.body;
 
-        if (!groupName) {
-            res.status(400).send({
-                error: 'Bad Request',
-                message: 'No empty field allowed.',
-                code: 400
-            });
-            return;
-        }
+  try {
+    const group = await Group.create({adminId, ...groupValues});
+    req.body.idGroup = group.dataValues.id;
 
-        await db.createGroup(groupName, idClient, adminOnlyExpenses);
-
-        res.status(200).send({});
-    } catch (err) {
-        res.status(500).send('Something went wrong');
-        throw err;
+    if (req.body.invites.length > 0) {
+      await membersController.addMember(req, res);
     }
+
+    return res.status(200).send({group});
+  } catch (err) {
+    return res.status(500).send();
+    // TODO errors
+  }
+};
+
+const getGroupById = async function (req, res) {
+  const {idGroup} = req.params;
+
+  try {
+    const group = await Group.findByPK(idGroup);
+    return res.status(200).send(group)
+  } catch (err) {
+    if (err instanceof EmptyException) {
+      return res.status(400).send(err);
+    }
+    return res.status(500).send(err);
+  }
 }
 
-const getAllGroups = async function (req, res) {
-    try {
-        const groups = await db.getAllGroups();
+const getGroupsByClientId = async function (req, res) {
+  try {
+    const groups = await membersController.getAllGroupsGivenMember(req, res);
 
-        res.status(200).send(groups);
-    } catch (err) {
-        res.status(500).send('Something went wrong');
-        throw err;
-    }
+    return res.status(200).send(groups);
+  } catch (err) {
+    return res.status(500).send(err);
+  }
 }
-
-const editGroup = async function (req, res) {
-    try {
-        // TODO check if the user trying to edit the group is the group admin
-        // the option itself just only show to the admin, yet it's a good safety improvement
-
-        const {idGroup} = req.params;
-        const {groupName} = req.body;
-
-        await db.editGroup(idGroup, groupName);
-
-        res.status(200).send('Group edited successfully');
-    } catch (err) {
-        res.status(500).send('Something went wrong.');
-        throw err;
-    }
-}
-
-// const getGroupsByClient = async function (req, res) {
-//     try {
-//         const {idClient} = req.params;
-//
-//         const group = db.getGroupsByClient(idClient);
-//
-//         res.status(200).send(group);
-//     } catch (err) {
-//         res.status(500).send('Something went wrong.');
-//         throw err;
-//     }
-// }
 
 const deleteGroup = async function (req, res) {
-    try {
+  const {idGroup, idClient} = req.params;
 
-        const {idGroup} = req.params;
+  try {
+    const group = await Group.findByPK(idGroup);
 
-        await db.deleteGroup(idGroup);
+    if (group?.dataValues.admin_id.toString() === idClient) {
+      await Group.hardDeleteGroup(idGroup);
 
-        res.status(200).send('Group deleted successfully.');
-    } catch (err) {
-        if (err.code === 'ER_ROW_IS_REFERENCED_2') {
-            // testar trigger depois => tentar excluir um grupo precisa também excluir os participantes dele do grupo na table members
-            res.status(501).send('NOT IMPLEMENTED YET'); // TODO
-        }
-        res.status(500).send('Something went wrong.');
-        throw err;
+      return res.status(200).send(group);
     }
+
+    return res.status(200).send(new NotAllowedException('idAdmin'));
+  } catch (err) {
+    if (err instanceof EmptyException) {
+      return res.status(400).send(err);
+    }
+    return res.status(500).send(err);
+  }
 }
 
+const leaveGroup = async function (req, res) {
+  const {idClient, idGroup} = req.params;
+
+  try {
+    const group = await getGroupById(req, res);
+
+    if (idClient === group.dataValues.admin_id.toString()) {
+      const groupMembers = await membersController.getAllMembersFromGroup(req, res);
+
+      const members = groupMembers.map((group) => group.dataValues.id_client);
+
+      if (members.length === 1) {
+        await deleteGroup(req, res);
+      }
+
+      const adminIndex = members.findIndex(val => val.toString() === idClient)
+      members.splice(adminIndex, 1);
+
+      await Group.updateGroup(idGroup, {adminId: members[0]});
+    }
+
+    await membersController.leaveAsMember(req, res);
+    return res.status(200).send();
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+}
+
+const getClientsfromGroups = async function (req, res) {
+  const { id_group } = req.params
+  try {
+    var clients = await Group.getClientsfromGroups(id_group)
+
+    return res.status(200).send(clients)
+
+  } catch (err) {
+    return res.status(500).send("error")
+  }
+}
 
 module.exports = {
-    createGroup,
-    getAllGroups,
-    editGroup,
-    deleteGroup
-}
+  getClientsfromGroups,
+  createGroup,
+  getGroupById,
+  getGroupsByClientId,
+  deleteGroup,
+  leaveGroup
+};

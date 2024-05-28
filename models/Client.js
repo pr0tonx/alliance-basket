@@ -113,7 +113,7 @@ class Client extends Model {
 
     const {email, password} = values
     if (email != null) {
-      throw new InvalidFieldException(email)
+      await this.validateEmail(email)
     }
 
     if (password != null) {
@@ -123,6 +123,7 @@ class Client extends Model {
 
     return await client.save() 
   }
+
   static async search(values) {
     const whereClause = Object.keys(values).reduce((acc, field) => {
       acc[field] = { [Op.like]: `${values[field]}%` };
@@ -132,6 +133,13 @@ class Client extends Model {
     return await this.findAll({
       where: whereClause,
       rejectOnEmpty: true,
+    });
+  }
+
+  static async searchEmail(values) {
+    return await this.findAll({
+      where: {email: values},
+      rejectOnEmpty: false,
     });
   }
 }

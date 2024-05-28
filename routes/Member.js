@@ -1,9 +1,14 @@
 const express = require('express');
 
 const membersController = require('../controllers/membersController');
-const router = express.Router()
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.get('/group/:id', (req, res) => membersController.listAllMembers(req, res));
+const router = express.Router();
 
-module.exports = router
+router.post('/clients/:id/groups', authMiddleware.isAuth, (req, res) => membersController.addMember(req, res));
+router.get('/groups/:idGroup', authMiddleware.isAuth, (req, res) => membersController.getMembersFromGroup(req, res));
+router.delete('/groups/:idGroup/clients/:idClient', authMiddleware.isAuth, (req, res) => membersController.removeMember(req, res));
 
+// router.get('/group/:id', (req, res) => membersController.listAllMembers(req, res));
+
+module.exports = router;
