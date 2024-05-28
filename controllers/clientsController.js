@@ -168,10 +168,6 @@ const getAllGroups = async function (req, res) {
   }
 }
 
-
-
-
-
 module.exports = {
   getClients,
   createClient,
