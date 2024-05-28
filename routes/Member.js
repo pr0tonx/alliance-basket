@@ -1,9 +1,12 @@
 const express = require('express');
 
 const membersController = require('../controllers/membersController');
-const router = express.Router()
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.get('/group/:id', (req, res) => membersController.listAllMembers(req, res));
+const router = express.Router();
 
-module.exports = router
+router.post('/groups', authMiddleware.isAuth, (req, res) => membersController.addMember(req, res));
 
+// router.get('/group/:id', (req, res) => membersController.listAllMembers(req, res));
+
+module.exports = router;

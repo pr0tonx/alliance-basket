@@ -72,7 +72,7 @@ const search = async function (req, res) {
 const getClientById = async function (req, res) {
   try {
     const {id} = req.params;
-    
+
     const client = await Client.findOne({where : {
       id: id,
       status: 1,
@@ -131,6 +131,25 @@ const reactivateClient = async function (req, res) {
     return res.status(500).send(err.message);
   }
 }
+
+const getClientsByEmail = async function (req, res) { // TODO mover lógica pro model do sequelize Client.js
+  try {
+    const {invites} = req.body;
+
+    const users = [];
+    for (const invite of invites) {
+      const user = await Client.searchEmail(invite);
+
+      if (user.length > 0) users.push(...user);
+    }
+
+    return users;
+  } catch (err) {
+    console.log(err) // TODO
+    res.status(500).send('Problema no getClientByEmail');
+  }
+}
+
 const getAllGroups = async function (req, res) {
   const {clientId} = req.params;
 
@@ -158,5 +177,6 @@ module.exports = {
   reactivateClient,
   search,
   getAllGroups,
+  getClientsByEmail,
   login
 }
