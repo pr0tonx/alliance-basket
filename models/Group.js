@@ -38,15 +38,6 @@ class Group extends Model {
     }
   }
 
-  static async findAllGroupsByClientId(values, options) {
-    await this.keysToSnakeCase(values);
-
-    return await this.findAll({
-      where: values,
-      rejectOnEmpty: false,
-    });
-  }
-
   static async hardDeleteGroup(id) {
     const group = await this.findOne({
       where: {id}
@@ -56,19 +47,17 @@ class Group extends Model {
   }
 
   static async updateGroup(id, values) {
-    const group = await this.findOne({
-      where: {
-        id: id
-      }
-    });
+    try {
+      await this.keysToSnakeCase(values);
 
-    await this.validatePayload(values);
+      const group = await this.findOne({
+        where: {id: id}
+      });
 
-    group.set(values);
-  }
-
-  static async search(values) {
-
+      await group.update(values);
+    } catch (err) {
+      throw err;
+    }
   }
 
   static async validatePayload(values) {

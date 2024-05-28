@@ -6,6 +6,7 @@ const RequiredFieldException = require('../error/RequiredFieldException');
 const RequiredFieldLengthException = require('../error/InvalidFieldLengthException');
 
 const clientsController = require('./clientsController');
+// const groupsController = require('./groupsController');
 
 const addMember = async function (req, res) {
   try {
@@ -17,34 +18,60 @@ const addMember = async function (req, res) {
 
     return res.status(200).send();
   } catch (err) {
-    console.log('Deu erro no addMember', err);
-    return res.status(500).send(); // TODO
+    res.status(500).send(); // TODO
   }
 }
 
 const getAllMembersFromGroup = async function (req, res) {
-
-}
-
-const getMemberById = async function (req, res) {
-  const {idClient, idGroup} = req.body;
+  const {idGroup} = req.params;
 
   try {
-    const member = await Member.findOne();
-
-
+    return Member.findAllGivenValue({idGroup});
   } catch (err) {
-    console.log('Deu erro no getMemberById', err)
-    return res.status(500).send();
+    return res.status(500).send(err)
   }
-  // chamar o getAllMembers se precisar
+}
+
+const getAllGroupsGivenMember = async function (req, res) {
+  const {idClient} = req.params;
+
+  try {
+    return await Member.findAllGivenValue({idClient});
+  } catch (err) {
+    res.status(500).send(err);
+  }
 }
 
 const removeMember = async function (req, res) {
+  // const {idGroup, idClient} = req.params;
+  // const {member} = req.body;
+  //
+  // try {
+  //   const group = await groupsController.getGroupById(req, res);
+  //   console.log(group.dataValues.admin_id);
+  //
+  //   return res.status(200).send();
+  // } catch (err) {
+  //   // if (err instanceof EmptyException) res.status(400).send(err);
+  //   return res.status(500).send('Deu ruim no removeMember');
+  // }
+  return res.status(200).send('Not implemented');
+}
 
+const leaveAsMember = async function (req, res) {
+  const {idClient, idGroup} = req.params;
+
+  try {
+    return await Member.deleteMember({idClient, idGroup});
+  } catch (err) {
+    return res.status(500).send(err);
+  }
 }
 
 module.exports = {
   addMember,
-  getMemberById
+  getAllMembersFromGroup,
+  getAllGroupsGivenMember,
+  removeMember,
+  leaveAsMember
 }
