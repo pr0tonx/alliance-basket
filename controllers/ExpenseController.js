@@ -59,11 +59,7 @@ const updateExpense = async (req, res) => {
 
 const deleteExpense = async (req, res) => {
   try {
-    const expense = await Expense.findByPk(req.params.id);
-    if (!expense) {
-      return res.status(404).json({ error: 'Expense not found' });
-    }
-    await expense.destroy();
+    const expense = await Expense.delete(req)
     return res.status(204).json();
   } catch (error) {
     return res.status(400).json({ error: error.message });
