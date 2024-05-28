@@ -32,6 +32,18 @@ const getAllMembersFromGroup = async function (req, res) {
   }
 }
 
+const getMembersFromGroup = async function (req, res) {
+  const {idGroup} = req.params;
+
+  try {
+    const group = await Member.findAllGivenValue({idGroup});
+
+    res.status(200).send(group);
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+}
+
 const getAllGroupsGivenMember = async function (req, res) {
   const {idClient} = req.params;
 
@@ -71,6 +83,7 @@ const leaveAsMember = async function (req, res) {
 module.exports = {
   addMember,
   getAllMembersFromGroup,
+  getMembersFromGroup,
   getAllGroupsGivenMember,
   removeMember,
   leaveAsMember
