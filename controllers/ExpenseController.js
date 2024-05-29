@@ -8,8 +8,8 @@ const Expense = require('../models/expense');
 
 const createExpenses = async (req, res) => {
   try {
-    
     const expense = await Expense.create(req);
+
     return res.status(201).json(expense);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -21,6 +21,7 @@ const getAllByGroup = async (req, res) => {
   const { id_group } = req.params
   try {
     const expenses = await Expense.getAllByGroup(id_group);
+
     return res.status(200).json(expenses);
   } catch (error) {
     if (error.name === 'SequelizeEmptyResultError'){
@@ -29,8 +30,6 @@ const getAllByGroup = async (req, res) => {
     return res.status(500).send();
   }
 };
-
-
 
 const getExpenseById = async (req, res) => {
   try {
@@ -66,8 +65,18 @@ const deleteExpense = async (req, res) => {
   }
 };
 
+const howMuchIOwe = async (req, res) => {
+  try {
+    const how = await Expense.howMuchIOwe(req)
+
+    return res.status(200).send(how)
+  } catch (err) {
+    return res.status(400).send({error: "error"})
+  }
+}
 
 module.exports = {
+  howMuchIOwe,
   createExpenses,
   getAllByGroup,
   getExpenseById,

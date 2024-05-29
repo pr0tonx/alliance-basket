@@ -4,6 +4,8 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 const process = require('process');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const EmptyException = require('../error/EmptyException');
+const { Group } = require('./Group');
+const { Member } = require('./Member');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 
@@ -24,8 +26,6 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
         };
         
         const expense = await super.create(newJson);
-      
-       
 
         return expense
         
@@ -63,9 +63,30 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
         else{
           expense.destroy();
         }
+      }
 
+      // finish this
+      static async howMuchIOwe (req) {
+        const { client_id, id_group } = req.params
+
+        groupSize = await Member.findAll({where : {
+          group_id: id_group
+        }})
+
+        console.log(groupSize)
+
+        return 0
+
+
+
+        // get how much you paid
+        
+        // get how much others paid
+
+        // general value
 
       }
+
   }
   Expense.init({
     name: DataTypes.STRING,
@@ -77,6 +98,4 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
     modelName: 'Expense',
   });
 
-
 module.exports = Expense;
-
