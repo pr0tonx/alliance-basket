@@ -145,7 +145,6 @@ const getClientsByEmail = async function (req, res) { // TODO mover lógica pro 
 
     return users;
   } catch (err) {
-    console.log(err) // TODO
     res.status(500).send('Problema no getClientByEmail');
   }
 }
