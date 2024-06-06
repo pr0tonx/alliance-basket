@@ -76,7 +76,7 @@ const leaveGroup = async function (req, res) {
   const {idClient, idGroup} = req.params;
 
   try {
-    const group = await getGroupById(req, res);
+    const group = await Group.findByPK(idGroup);
 
     if (idClient === group.dataValues.admin_id.toString()) {
       const groupMembers = await membersController.getAllMembersFromGroup(req, res);
@@ -85,6 +85,7 @@ const leaveGroup = async function (req, res) {
 
       if (members.length === 1) {
         await deleteGroup(req, res);
+        return res.status(200).send();
       }
 
       const adminIndex = members.findIndex(val => val.toString() === idClient)
