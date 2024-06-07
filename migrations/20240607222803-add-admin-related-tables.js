@@ -1,13 +1,14 @@
 'use strict';
 
+const {query} = require("express");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => {
       return Promise.all([
         queryInterface.createTable('Tickets', {
           id: {
-            type:Sequelize.DataTypes.INTEGER,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
@@ -44,32 +45,20 @@ module.exports = {
             primaryKey: true
           },
           from: {
-            type: Sequelize.DataTypes.STRING,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
-            references: {
-              model: 'Clients',
-              key: 'id'
-            }
           },
           to: {
-            type: Sequelize.DataTypes.STRING,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
-            references: {
-              model: 'Clients',
-              key: 'id'
-            }
           },
           message: {
             type: Sequelize.DataTypes.STRING(2000),
             allowNull: false,
           },
           idChat: {
-            type: Sequelize.DataTypes.STRING,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
-            references: {
-              model: 'Tickets',
-              key: 'id'
-            }
           },
           createdAt: {
             type: Sequelize.DataTypes.DATE,
@@ -81,12 +70,12 @@ module.exports = {
             defaultValue: Sequelize.NOW,
             allowNull: false
           }
-        }, {transaction: t})
+        }, {transaction: t}),
       ]);
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => {
       return Promise.all([
         queryInterface.dropTable('Tickets', {transaction: t}),
