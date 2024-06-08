@@ -17,7 +17,7 @@ const createGroup = async function (req, res) {
     req.body.idGroup = group.dataValues.id;
 
     if (req.body.invites.length > 0) {
-      await membersController.addMember(req, res);
+      membersController.addMember(req, res);
     }
 
     return res.status(200).send({group});
