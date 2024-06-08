@@ -113,13 +113,27 @@ class Client extends Model {
 
     const {email, password} = values
     if (email != null) {
-      await this.validateEmail(email)
-    }
+      try {
+        await this.validateEmail(email);
+      } catch (err) {
+        if (!(err instanceof EmptyException)) {
+          throw err;
+        }
+      }
 
-    if (password != null) {
-      values.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
+      //dont exactly work because the client.password is hashed
+      let strtohash = password || client.password
+
+      values.password = Utils.hashPassword(email,strtohash);
     }
-    client.set(values)
+  
+    if (password != null && email == null) {
+      values.password = Utils.hashPassword(client.email, password);
+    }
+  
+    const cleanedValues = Utils.removeEmptyValues(values);
+  
+    client.set(cleanedValues);
 
     return await client.save() 
   }
