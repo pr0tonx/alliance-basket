@@ -150,24 +150,6 @@ const getClientsByEmail = async function (req, res) { // TODO mover lógica pro 
   }
 }
 
-const getAllGroups = async function (req, res) {
-  const {clientId} = req.params;
-
-  try {
-
-    let groups = await clientModel.getClientGroups(clientId);
-    return res.status(200).send(groups)
-
-  } catch (err) {
-
-    if (err instanceof EmptyException) {
-      return res.status(204).send(err.message);
-    }
-
-    return res.status(500).send(err.message)
-  }
-}
-
 module.exports = {
   getClients,
   createClient,
@@ -176,7 +158,6 @@ module.exports = {
   deleteClient,
   reactivateClient,
   search,
-  getAllGroups,
   getClientsByEmail,
   login
 }
