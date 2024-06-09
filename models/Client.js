@@ -13,7 +13,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 class Client extends Model {
   static async create (values, options) {
     await this.validatePayload(values)
-    values.password = Utils.hashPassword(values.email, values.password)
+    values.password = Utils.hashPassword(values.password)
 
     const user = await super.create(values, options)
     return {
@@ -26,7 +26,7 @@ class Client extends Model {
     let {email, password} = values
     const user = await this.findOne({where: { email: email, status: 1, type: 1 }})
      
-    password = Utils.hashPassword(values.email, values.password)
+    password = Utils.hashPassword(values.password)
 
     if(password != user.password) {
       throw new InvalidFieldException("password")
@@ -111,15 +111,33 @@ class Client extends Model {
       }
     })
 
-    const {email, password} = values
+    const {email, password, oldPassword } = values
     if (email != null) {
-      await this.validateEmail(email)
-    }
+      try {
+        await this.validateEmail(email);
+      } catch (err) {
+        if (!(err instanceof EmptyException)) {
+          throw err;
+        }
+      }
 
-    if (password != null) {
-      values.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
     }
-    client.set(values)
+  
+    if (password != null) {
+      if (oldPassword == null) {
+        throw new RequiredFieldException("senha confirme sua senha")
+      }
+
+      if (Utils.hashPassword(oldPassword) != client.password) {
+        throw new InvalidFieldException(oldPassword)
+      }
+
+      values.password = Utils.hashPassword(password);
+    }
+  
+    const cleanedValues = Utils.removeEmptyValues(values);
+  
+    client.set(cleanedValues);
 
     return await client.save() 
   }

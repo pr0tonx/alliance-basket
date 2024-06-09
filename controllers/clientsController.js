@@ -1,4 +1,3 @@
-const clientModel =  require('../model/clientModel')
 const EmptyException = require('../error/EmptyException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const RequiredFieldException = require('../error/RequiredFieldException');
@@ -106,6 +105,7 @@ const updateClient = async function (req, res) {
   }
 }
 
+
 // TODO when deleting a user, the group admin must be transfered to another user if there is one
 const deleteClient = async function (req, res) {
   try {
@@ -149,24 +149,6 @@ const getClientsByEmail = async function (req, res) { // TODO mover lógica pro 
   }
 }
 
-const getAllGroups = async function (req, res) {
-  const {clientId} = req.params;
-
-  try {
-
-    let groups = await clientModel.getClientGroups(clientId);
-    return res.status(200).send(groups)
-
-  } catch (err) {
-
-    if (err instanceof EmptyException) {
-      return res.status(204).send(err.message);
-    }
-
-    return res.status(500).send(err.message)
-  }
-}
-
 module.exports = {
   getClients,
   createClient,
@@ -175,7 +157,6 @@ module.exports = {
   deleteClient,
   reactivateClient,
   search,
-  getAllGroups,
   getClientsByEmail,
   login
 }
