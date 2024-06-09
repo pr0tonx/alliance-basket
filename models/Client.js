@@ -13,7 +13,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 class Client extends Model {
   static async create (values, options) {
     await this.validatePayload(values)
-    values.password = Utils.hashPassword(values.email, values.password)
+    values.password = Utils.hashPassword(values.password)
 
     const user = await super.create(values, options)
     return {
@@ -25,8 +25,8 @@ class Client extends Model {
   static async login(values) {
     let {email, password} = values
     const user = await this.findOne({where: { email: email, status: 1, type: 1 }})
-     
-    password = Utils.hashPassword(values.email, values.password)
+
+    password = Utils.hashPassword( values.password)
 
     if(password != user.password) {
       throw new InvalidFieldException("password")
@@ -112,12 +112,20 @@ class Client extends Model {
     })
 
     const {email, password} = values
+    
+    const codePassword = Utils.hashPassword(values.oldPassword)
+
+    if(codePassword != client.dataValues.password ){
+     
+      throw new InvalidFieldException(values.oldPassword)
+    }
+
     if (email != null) {
       await this.validateEmail(email)
     }
 
     if (password != null) {
-      values.password = Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
+      values.password = Buffer.from(`${process.env.SECRET_TOKEN}:${password}`).toString('base64');
     }
     client.set(values)
 

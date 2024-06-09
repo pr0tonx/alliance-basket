@@ -6,8 +6,8 @@ const createToken = (id) => {
   });
 }
 
-const hashPassword = function (email, password) {
-  return Buffer.from(`${email}:${process.env.SECRET_TOKEN}:${password}`).toString('base64');
+const hashPassword = function ( password) {
+  return Buffer.from(`${process.env.SECRET_TOKEN}:${password}`).toString('base64');
 }
 
 module.exports = {
