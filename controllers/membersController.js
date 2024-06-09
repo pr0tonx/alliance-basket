@@ -6,7 +6,6 @@ const RequiredFieldException = require('../error/RequiredFieldException');
 const RequiredFieldLengthException = require('../error/InvalidFieldLengthException');
 
 const clientsController = require('./clientsController');
-// const groupsController = require('./groupsController');
 
 const addMember = async function (req, res) {
   try {

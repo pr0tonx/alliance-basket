@@ -1,4 +1,3 @@
-const clientModel =  require('../model/clientModel')
 const EmptyException = require('../error/EmptyException');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const RequiredFieldException = require('../error/RequiredFieldException');

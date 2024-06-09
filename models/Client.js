@@ -13,7 +13,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 class Client extends Model {
   static async create (values, options) {
     await this.validatePayload(values)
-    values.password = Utils.hashPassword(values.email, values.password)
+    values.password = Utils.hashPassword(values.password)
 
     const user = await super.create(values, options)
     return {
@@ -26,7 +26,7 @@ class Client extends Model {
     let {email, password} = values
     const user = await this.findOne({where: { email: email, status: 1, type: 1 }})
      
-    password = Utils.hashPassword(values.email, values.password)
+    password = Utils.hashPassword(values.password)
 
     if(password != user.password) {
       throw new InvalidFieldException("password")
@@ -121,14 +121,10 @@ class Client extends Model {
         }
       }
 
-      //dont exactly work because the client.password is hashed
-      let strtohash = password || client.password
-
-      values.password = Utils.hashPassword(email,strtohash);
     }
   
-    if (password != null && email == null) {
-      values.password = Utils.hashPassword(client.email, password);
+    if (password != null) {
+      values.password = Utils.hashPassword(password);
     }
   
     const cleanedValues = Utils.removeEmptyValues(values);
