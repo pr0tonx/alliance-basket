@@ -111,7 +111,7 @@ class Client extends Model {
       }
     })
 
-    const {email, password} = values
+    const {email, password, oldPassword } = values
     if (email != null) {
       try {
         await this.validateEmail(email);
@@ -124,6 +124,14 @@ class Client extends Model {
     }
   
     if (password != null) {
+      if (oldPassword == null) {
+        throw new RequiredFieldException("senha confirme sua senha")
+      }
+
+      if (Utils.hashPassword(oldPassword) != client.password) {
+        throw new InvalidFieldException(oldPassword)
+      }
+
       values.password = Utils.hashPassword(password);
     }
   
