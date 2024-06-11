@@ -9,7 +9,7 @@ const clientsController = require('./clientsController');
 
 const addMember = async function (req, res) {
   try {
-    const clientsFound = await clientsController.getClientsByEmail(req, res);
+    const clientsFound = await clientsController.getClientsToInviteByEmail(req, res);
 
     for (const client of clientsFound) {
       await Member.create({idGroup: req.body.idGroup, idClient: client.dataValues.id});
@@ -27,7 +27,7 @@ const getAllMembersFromGroup = async function (req, res) {
   try {
     return Member.findAllGivenValue({idGroup});
   } catch (err) {
-    return res.status(500).send(err)
+    return res.status(500).send(err);
   }
 }
 

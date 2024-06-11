@@ -132,7 +132,26 @@ const reactivateClient = async function (req, res) {
   }
 }
 
-const getClientsByEmail = async function (req, res) { // TODO mover lógica pro model do sequelize Client.js
+const getClientById2 = async function (id) {
+  try {
+    return await Client.findOne({where: {id}});
+
+  } catch (err) {
+    throw err;
+  }
+}
+
+const getClientByEmail = async function (email) {
+  try {
+    const client = await Client.searchEmail(email);
+
+    return client[0];
+  } catch (err) {
+    throw err;
+  }
+}
+
+const getClientsToInviteByEmail = async function (req, res) {
   try {
     const {invites} = req.body;
 
@@ -157,6 +176,8 @@ module.exports = {
   deleteClient,
   reactivateClient,
   search,
-  getClientsByEmail,
+  getClientById2,
+  getClientByEmail,
+  getClientsToInviteByEmail,
   login
 }
