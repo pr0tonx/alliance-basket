@@ -83,7 +83,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
           expense.destroy();
         }
       }
-
+    
       static async howMuchIOwe(req) {
         const { client_id, group_id } = req.params;
         const clientIdInt = parseInt(client_id);
@@ -95,50 +95,49 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
         const groupMembers = await Member.findAll({
             where: { id_group: group_id }
         });
-
+    
         const allPayments = await ExpensePayment.findAll({
             where: { expense_id: { [Op.in]: expenses.map(expense => expense.id) } }
         });
-        
+    
         const paymentsByUser = allPayments.reduce((acc, payment) => {
             if (!acc[payment.user_id]) acc[payment.user_id] = [];
             acc[payment.user_id].push(payment);
             return acc;
         }, {});
-        
+    
         let totalAmountOwedToUser = 0;
         let totalAmountUserOwes = 0;
         const amountsOwedToMembers = {};
     
         const calculateOwedAmount = (payments, createdBy) => {
             return payments.reduce((sum, payment) => {
-                if (createdBy) {
-                    return sum + (payment.amount_owed - payment.amount_paid);
-                } else {
-                    return sum + (payment.amount_owed - payment.amount_paid);
-                }
+                return sum + (payment.amount_owed - payment.amount_paid);
             }, 0);
         };
     
         for (const member of groupMembers) {
-            const memberId = member.id_client;
-            if (memberId === clientIdInt) continue;
-    
-            const memberPayments = paymentsByUser[memberId] || [];
-            const userPayments = paymentsByUser[clientIdInt] || [];
-        
-            const memberOwesUser = calculateOwedAmount(memberPayments.filter(payment => {
-                return expenses.find(exp => exp.id === payment.expense_id && exp.id_client === clientIdInt);
-            }), true);
-    
-            const userOwesMember = calculateOwedAmount(userPayments.filter(payment => {
-                return expenses.find(exp => exp.id === payment.expense_id && exp.id_client === memberId);
-            }), false);
-    
-            amountsOwedToMembers[memberId] = memberOwesUser;
-            totalAmountOwedToUser += memberOwesUser;
-            totalAmountUserOwes += userOwesMember;
-        }
+          const memberId = member.id_client;
+          if (memberId === clientIdInt) continue;
+      
+          const memberPayments = paymentsByUser[memberId] || [];
+          const userPayments = paymentsByUser[clientIdInt] || [];
+      
+          const memberOwesUser = calculateOwedAmount(memberPayments.filter(payment => {
+              return expenses.find(exp => exp.id === payment.expense_id && exp.id_client === clientIdInt);
+          }), true);
+      
+          const userOwesMember = calculateOwedAmount(userPayments.filter(payment => {
+              return expenses.find(exp => exp.id === payment.expense_id && exp.id_client === memberId);
+          }), false);
+      
+          console.log("Member ID:", memberId);
+          console.log("User Owes Member:", userOwesMember);
+      
+          amountsOwedToMembers[memberId] = -userOwesMember; 
+          totalAmountOwedToUser += memberOwesUser;
+          totalAmountUserOwes += userOwesMember;
+      }
     
         const totalAmountOwed = totalAmountOwedToUser - totalAmountUserOwes;
         return {
@@ -146,6 +145,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
             amountsOwedToMembers
         };
     }
+    
     
 }  
 
