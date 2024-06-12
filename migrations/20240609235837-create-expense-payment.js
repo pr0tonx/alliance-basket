@@ -10,30 +10,47 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       expense_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Expenses',
+          key: 'id'
+        }
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Clients',
+          key: 'id'
+        }
+      },
+      amount_owed: {
+        type: Sequelize.DOUBLE,
+        allowNull: false,
+        defaultValue: 0
       },
       amount_paid: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DOUBLE,
+        allowNull: false,
+        defaultValue: 0
+      },
+      paid: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       },
       payment_date: {
-        type: Sequelize.DATE
-      },
-      created_at: {
-        type: Sequelize.DATE
-      },
-      updated_at: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: true
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },
