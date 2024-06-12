@@ -79,7 +79,7 @@ const removeMemberFromGroup = async function (req, res) {
   try {
     const group = await Group.findByPK(idGroup);
 
-    if (idClient !== group.dataValues.admin_id) throw new NotAllowedException('adminId');
+    if (idClient !== Number(group.dataValues.admin_id)) throw new NotAllowedException('adminId');
 
     await membersController.removeMember(idGroup, idMember);
 

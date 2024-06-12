@@ -31,7 +31,7 @@ class Ticket extends Model {
   static async validatePayload(values) {
     if (values.type?.trim() === '') throw new RequiredFieldException('type');
     if (typeof values.type !== 'string') throw new InvalidFieldException('type');
-    if (!['Reclamações', 'Sugestões', 'Outros'].includes(values.type)) throw new EnumMismatchException('type');
+    if (!['Ajuda', 'Reclamações', 'Sugestões', 'Outros'].includes(values.type)) throw new EnumMismatchException('type');
 
     if (values.title?.trim() === '') throw new RequiredFieldException('title');
     if (typeof values.title !== 'string') throw new InvalidFieldException('title');
