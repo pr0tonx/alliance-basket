@@ -75,11 +75,21 @@ const howMuchIOwe = async (req, res) => {
   }
 }
 
+const pay = async (req, res) => {
+  try {
+    const result = await Expense.payLoan(req);
+    res.status(200).json(result);
+} catch (error) {
+    res.status(400).json({ error: error.message });
+}
+}
+
 module.exports = {
   howMuchIOwe,
   createExpenses,
   getAllByGroup,
   getExpenseById,
   updateExpense,
-  deleteExpense
+  deleteExpense,
+  pay
 };

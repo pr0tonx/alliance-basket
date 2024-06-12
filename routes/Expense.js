@@ -11,5 +11,6 @@ router.get('/:id',authMiddleware.isAuth, async (req, res) => ExpenseController.g
 router.put('/:id',authMiddleware.isAuth, async (req, res) => ExpenseController.updateExpense(req, res));
 router.delete('/:id',authMiddleware.isAuth, async (req, res) => ExpenseController.deleteExpense(req, res));
 router.get('/client/:client_id/group/:group_id/howmuchiowe', authMiddleware.isAuth, async (req, res) => ExpenseController.howMuchIOwe(req, res));
+router.post('/client/:client_id/group/:group_id/pay', authMiddleware.isAuth, async (req, res) => ExpenseController.pay(req, res));
 
 module.exports = router
