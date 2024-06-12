@@ -12,7 +12,4 @@ router.get('/:id_group/members', authMiddleware.isAuth, (req, res) => groupsCont
 router.delete('/:idGroup/clients/:idClient', authMiddleware.isAuth, (req, res) => groupsController.deleteGroup(req, res));
 router.post('/:idGroup/clients/:idClient', authMiddleware.isAuth, (req, res) => groupsController.leaveGroup(req, res));
 
-// router.get('/', (req, res) => groupsController.getAllGroups(req, res));
-// router.put('/:idClient/groups/:idGroup', (req, res) => groupsController.editGroup(req, res));
-
 module.exports = router;
