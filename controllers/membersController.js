@@ -53,20 +53,12 @@ const getAllGroupsGivenMember = async function (req, res) {
   }
 }
 
-const removeMember = async function (req, res) {
-  // const {idGroup, idClient} = req.params;
-  // const {member} = req.body;
-  //
-  // try {
-  //   const group = await groupsController.getGroupById(req, res);
-  //   console.log(group.dataValues.admin_id);
-  //
-  //   return res.status(200).send();
-  // } catch (err) {
-  //   // if (err instanceof EmptyException) res.status(400).send(err);
-  //   return res.status(500).send('Deu ruim no removeMember');
-  // }
-  return res.status(200).send('Not implemented');
+const removeMember = async function (idGroup, idMember) {
+  try {
+    return await Member.deleteMember({idClient: idMember});
+  } catch (err) {
+    throw err;
+  }
 }
 
 const leaveAsMember = async function (req, res) {
