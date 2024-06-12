@@ -1,6 +1,4 @@
-
 const { Sequelize, DataTypes, Model } = require('sequelize');
-
 const process = require('process');
 const InvalidFieldException = require('../error/InvalidFieldException');
 const EmptyException = require('../error/EmptyException');
@@ -8,11 +6,14 @@ const { Group } = require('./Group');
 const { Member } = require('./Member');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
+const ExpensePayment = require('./expense_payment');
+const { Op } = require('sequelize');
+
 
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
   class Expense extends Model {
-      static async create(req){    
+      static async create(req){
         const {name, value }= req.body
         const { id_client, id_group } = req.params;
         if(value <= 0){
@@ -27,12 +28,30 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
         
         const expense = await super.create(newJson);
 
+        const members = await Member.findAll({
+          where: {
+            id_group: id_group
+          }
+        });
+
+        const splitValue = parseFloat((value / members.length).toFixed(2));
+        console.log(splitValue);
+        const payments = members.map(member => ({
+          expense_id: expense.id,
+          user_id: member.id_client,
+          amount_paid: member.id_client === parseInt(id_client) ? splitValue : 0,
+          amount_owed: splitValue,
+          paid: member.id_client === parseInt(id_client),
+          payment_date: new Date(),
+          created_at: new Date(),
+          updated_at: new Date()
+        }));
+
+        await ExpensePayment.bulkCreate(payments);
+
         return expense
         
       }
-       static associate(models) {
-      }
-
 
       static async getAllByGroup(id){
         return await this.findAll({
@@ -64,8 +83,6 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
           expense.destroy();
         }
       }
-<<<<<<< Updated upstream
-=======
     
       static async howMuchIOwe(req) {
         const { client_id, group_id } = req.params;
@@ -181,36 +198,11 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
       const updatedAmounts = await this.howMuchIOwe({ params: { client_id, group_id } });
   
       return updatedAmounts;
-  }
-    
+  } 
     
 }  
->>>>>>> Stashed changes
 
-      // finish this
-      static async howMuchIOwe (req) {
-        const { client_id, id_group } = req.params
-
-        groupSize = await Member.findAll({where : {
-          group_id: id_group
-        }})
-
-        console.log(groupSize)
-
-        return 0
-
-
-
-        // get how much you paid
-        
-        // get how much others paid
-
-        // general value
-
-      }
-
-  }
-  Expense.init({
+    Expense.init({
     name: DataTypes.STRING,
     value: DataTypes.FLOAT,
     id_group: DataTypes.INTEGER,
