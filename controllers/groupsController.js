@@ -72,6 +72,26 @@ const deleteGroup = async function (req, res) {
   }
 }
 
+const removeMemberFromGroup = async function (req, res) {
+  const {idGroup} = req.params;
+  const {idClient, idMember} = req.body;
+
+  try {
+    const group = await Group.findByPK(idGroup);
+
+    if (idClient !== group.dataValues.admin_id) throw new NotAllowedException('adminId');
+
+    await membersController.removeMember(idGroup, idMember);
+
+    res.status(200).send();
+  } catch (err) {
+    if (err instanceof NotAllowedException) {
+      res.status(403).send(err);
+    }
+    res.status(500).send('Something went wrong while trying to remove a member from group');
+  }
+}
+
 const leaveGroup = async function (req, res) {
   const {idClient, idGroup} = req.params;
 
@@ -118,6 +138,7 @@ module.exports = {
   createGroup,
   getGroupById,
   getGroupsByClientId,
+  removeMemberFromGroup,
   deleteGroup,
   leaveGroup
 };
