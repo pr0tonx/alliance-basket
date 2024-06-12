@@ -145,7 +145,60 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
             amountsOwedToMembers
         };
     }
-    
+
+    static async payLoan(req) {
+      const { client_id, group_id } = req.params;
+      const { recipient_id, amount } = req.body;
+      const clientIdInt = parseInt(client_id);
+      const recipientIdInt = parseInt(recipient_id);
+      const paymentAmount = parseFloat(amount);
+  
+      if (paymentAmount <= 0) {
+          throw new Error('Payment amount must be greater than zero.');
+      }
+  
+      const expenses = await this.findAll({
+          where: { id_group: group_id }
+      });
+  
+      const allPayments = await ExpensePayment.findAll({
+          where: { expense_id: { [Op.in]: expenses.map(expense => expense.id) } }
+      });
+  
+      const userPayments = allPayments.filter(payment => payment.user_id === clientIdInt);
+      const recipientPayments = allPayments.filter(payment => payment.user_id === recipientIdInt);
+  
+      let totalDebt = 0;
+      userPayments.forEach(payment => {
+          if (expenses.find(exp => exp.id === payment.expense_id && exp.id_client === recipientIdInt)) {
+              totalDebt += (payment.amount_owed - payment.amount_paid);
+          }
+      });
+  
+      if (paymentAmount > totalDebt) {
+          throw new Error(`Payment amount exceeds the total debt. Total debt is ${totalDebt}.`);
+      }
+  
+      let remainingPayment = paymentAmount;
+      for (const payment of userPayments) {
+          const relatedExpense = expenses.find(exp => exp.id === payment.expense_id && exp.id_client === recipientIdInt);
+          if (relatedExpense && payment.amount_owed > payment.amount_paid) {
+              const remainingDebt = payment.amount_owed - payment.amount_paid;
+              const paymentPortion = Math.min(remainingPayment, remainingDebt);
+  
+              payment.amount_paid += paymentPortion;
+              await payment.save();
+  
+              remainingPayment -= paymentPortion;
+  
+              if (remainingPayment <= 0) break;
+          }
+      }
+  
+      const updatedAmounts = await this.howMuchIOwe({ params: { client_id, group_id } });
+  
+      return updatedAmounts;
+  } 
     
 }  
 
