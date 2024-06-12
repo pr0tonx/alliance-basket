@@ -55,7 +55,7 @@ const getAllGroupsGivenMember = async function (req, res) {
 
 const removeMember = async function (idGroup, idMember) {
   try {
-    return await Member.deleteMember({idClient: idMember});
+    return await Member.deleteMember({idClient: idMember, idGroup});
   } catch (err) {
     throw err;
   }
